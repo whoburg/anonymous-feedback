@@ -1,7 +1,8 @@
 {% if latest_survey_list %}
     <ul>
     {% for survey in latest_survey_list %}
-        <li><a href="/surveys/{{ survey.id }}/">{{ survey.survey_text }}</a></li>
+    <li><a href="{% url 'polls:detail' survey.id %}">
+        {{ survey.survey_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
