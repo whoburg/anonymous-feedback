@@ -1,5 +1,4 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from .models import Survey
 
@@ -10,4 +9,5 @@ def index(request):
     return render(request, 'surveys/index.html', context)
 
 def detail(request, survey_id):
-    return HttpResponse("You're looking at survey %s." % survey_id)
+    survey = get_object_or_404(Survey, pk=survey_id)
+    return render(request, 'surveys/detail.html', {'survey': survey})
