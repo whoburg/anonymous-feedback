@@ -1,18 +1,28 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.views import generic
 
 from .models import Survey, Question
 
 
-def index(request):
-    latest_survey_list = Survey.objects.order_by('pub_date')[:5]
-    context = {'latest_survey_list': latest_survey_list}
-    return render(request, 'surveys/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'surveys/index.html'
+    context_object_name = 'latest_survey_list'
+    def get_queryset(self):
+        """Return all questions"""
+        return Survey.objects.order_by('pub_date')[:]
 
-def detail(request, survey_id):
-    survey = get_object_or_404(Survey, pk=survey_id)
-    return render(request, 'surveys/detail.html', {'survey': survey})
+
+class DetailView(generic.DetailView):
+    model = Survey
+    template_name = 'surveys/detail.html'
+
+
+class SubmittedView(generic.DetailView):
+    model = Survey
+    template_name = 'surveys/submitted.html'
+
 
 def submit(request, survey_id):
     survey = get_object_or_404(Survey, pk=survey_id)
@@ -30,7 +40,3 @@ def submit(request, survey_id):
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
         return HttpResponseRedirect(reverse('surveys:submitted', args=(survey.id,)))
-
-def submitted(request, survey_id):
-    survey = get_object_or_404(Survey, pk=survey_id)
-    return render(request, 'surveys/submitted.html', {'survey': survey})
