@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Survey, Question
+from .models import Survey, Question, Feedback
 
 
 class QuestionInline(admin.StackedInline):
@@ -16,3 +16,4 @@ class SurveyAdmin(admin.ModelAdmin):
     inlines = [QuestionInline]
 
 admin.site.register(Survey, SurveyAdmin)
+admin.site.register(Feedback)
