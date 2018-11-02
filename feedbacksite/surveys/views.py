@@ -13,7 +13,7 @@ class IndexView(generic.ListView):
 
 class FeedbackCreate(generic.edit.CreateView):
     model = Feedback
-    fields = ['recipient', 'question', 'feedback_text']
+    fields = '__all__'
     template_name = 'surveys/fill.html'
 
 
