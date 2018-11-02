@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 
-from .models import Survey, Question
+from .models import Survey, Question, Feedback
 
 
 class IndexView(generic.ListView):
@@ -17,6 +17,12 @@ class IndexView(generic.ListView):
 class DetailView(generic.DetailView):
     model = Survey
     template_name = 'surveys/detail.html'
+
+
+class FeedbackCreate(generic.edit.CreateView):
+    model = Feedback
+    fields = ['recipient', 'question', 'feedback_text']
+    template_name = 'surveys/fill.html'
 
 
 class SubmittedView(generic.DetailView):
