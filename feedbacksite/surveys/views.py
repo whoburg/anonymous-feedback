@@ -19,6 +19,11 @@ class FeedbackCreate(generic.edit.CreateView):
     template_name = 'surveys/fill.html'
 
 
+def form_fill(request, pk):
+    return render(request, 'surveys/form_fill.html',
+                  {'current_name': "George"})
+
+
 def submit_feedback(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     if request.method == "POST":
