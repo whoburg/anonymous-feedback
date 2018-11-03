@@ -1,0 +1,10 @@
+{% if feedback_list %}
+    <ul>
+    {% for fb in feedback_list %}
+    <li>
+        {{ fb.feedback_text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results are available.</p>
+{% endif %}

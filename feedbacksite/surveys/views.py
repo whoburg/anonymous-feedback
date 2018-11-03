@@ -12,7 +12,7 @@ class IndexView(generic.ListView):
     context_object_name = 'latest_survey_list'
     def get_queryset(self):
         """Return all questions"""
-        return Survey.objects.order_by('pub_date')[:]
+        return Survey.objects.order_by('pub_date')
 
 
 def form_fill(request, pk):
@@ -40,3 +40,10 @@ def form_fill(request, pk):
 class SubmittedView(generic.DetailView):
     model = Survey
     template_name = 'surveys/submitted.html'
+
+
+class ResultsView(generic.ListView):
+    template_name = 'surveys/results.html'
+    def get_queryset(self):
+        """Return feedback for this user"""
+        return Feedback.objects.filter(recipient=self.request.user)
