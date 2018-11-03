@@ -1,5 +1,14 @@
+{% for question in survey.question_set.all %}
+    {{ question.question_text }}
+    <br>
+{% endfor %}
 <form action="{% url 'surveys:form_fill' survey.id %}" method="post">
     {% csrf_token %}
-    {{ form }}
+    {{ formset.management_form }}
+    <table>
+        {% for form in formset %}
+            {{ form }}
+        {% endfor %}
+    </table>
     <input type="submit" value="Submit">
 </form>
