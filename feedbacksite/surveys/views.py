@@ -1,8 +1,9 @@
 from django.views import generic
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Survey, Question, Feedback
-from .forms import FeedbackForm
+from .forms import FeedbackForm, FeedbackModelForm
 
 
 class IndexView(generic.ListView):
@@ -20,14 +21,24 @@ class FeedbackCreate(generic.edit.CreateView):
 
 
 def form_fill(request, pk):
+    survey = get_object_or_404(Survey, pk=pk)
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('surveys/../submitted/')
+    else:
+        form = FeedbackForm()
     return render(request, 'surveys/form_fill.html',
-                  {'current_name': "George"})
+            {'form': form, 'survey': survey})
 
 
 def submit_feedback(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     if request.method == "POST":
-        form = FeedbackForm(request.POST)
+        form = FeedbackModelForm(request.POST)
         if form.is_valid():
             feedback = form.save(commit=False)
             feedback.question_id = 2
@@ -35,7 +46,7 @@ def submit_feedback(request, pk):
             feedback.save()
             return redirect('../submitted')
     else:
-        form = FeedbackForm()
+        form = FeedbackModelForm()
     return render(request, 'surveys/submit.html',
                   {'survey': survey, 'form': form})
 
