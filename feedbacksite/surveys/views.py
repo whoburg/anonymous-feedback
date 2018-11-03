@@ -1,6 +1,7 @@
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.forms import formset_factory
 
 from .models import Survey, Question, Feedback
 from .forms import FeedbackForm, FeedbackModelForm
@@ -22,17 +23,25 @@ class FeedbackCreate(generic.edit.CreateView):
 
 def form_fill(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
+#    if request.method == 'POST':
+#        form = FeedbackForm(request.POST)
+#        if form.is_valid():
+#            # process the data in form.cleaned_data as required
+#            # ...
+#            # redirect to a new URL:
+#            return HttpResponseRedirect('surveys/../submitted/')
+#    else:
+#        form = FeedbackForm()
+    FeedbackFormSet = formset_factory(FeedbackForm, extra=4)
     if request.method == 'POST':
-        form = FeedbackForm(request.POST)
-        if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
-            # redirect to a new URL:
+        formset = FeedbackFormSet(request.POST)
+        if formset.is_valid():
+            # do something with the cleaned data
             return HttpResponseRedirect('surveys/../submitted/')
     else:
-        form = FeedbackForm()
+        formset = FeedbackFormSet()
     return render(request, 'surveys/form_fill.html',
-            {'form': form, 'survey': survey})
+            {'formset': formset, 'survey': survey})
 
 
 def submit_feedback(request, pk):
