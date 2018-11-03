@@ -4,9 +4,8 @@
 {% endfor %}
 <form action="{% url 'surveys:form_fill' survey.id %}" method="post">
     {% csrf_token %}
-    {{ formset.management_form }}
     <table>
-        {% for form in formset %}
+        {% for form in forms %}
             {{ form }}
         {% endfor %}
     </table>

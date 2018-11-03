@@ -1,7 +1,7 @@
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
 
 from .models import Survey, Question, Feedback
 from .forms import FeedbackForm, FeedbackModelForm
@@ -32,16 +32,24 @@ def form_fill(request, pk):
 #            return HttpResponseRedirect('surveys/../submitted/')
 #    else:
 #        form = FeedbackForm()
-    FeedbackFormSet = formset_factory(FeedbackForm, extra=4)
     if request.method == 'POST':
-        formset = FeedbackFormSet(request.POST)
-        if formset.is_valid():
+        forms = [FeedbackModelForm(request.POST,
+                                   question=q,
+                                   instance=Feedback(recipient=request.user,
+                                                     question=q),
+                                   prefix=("question%s" % q.id))
+                 for q in survey.question_set.all()]
+        if all(form.is_valid() for form in forms):
             # do something with the cleaned data
+            for form in forms:
+                form.save()
             return HttpResponseRedirect('surveys/../submitted/')
     else:
-        formset = FeedbackFormSet()
+        forms = [FeedbackModelForm(question=q,
+                                   prefix=("question%s" % q.id))
+                 for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
-            {'formset': formset, 'survey': survey})
+            {'forms': forms, 'survey': survey})
 
 
 def submit_feedback(request, pk):
