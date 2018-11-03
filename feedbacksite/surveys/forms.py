@@ -12,7 +12,3 @@ class FeedbackModelForm(forms.ModelForm):
         self.question = question
         super(FeedbackModelForm, self).__init__(*args, **kwargs)
         self.fields['feedback_text'].label = question.question_text
-
-
-class FeedbackForm(forms.Form):
-    your_feedback = forms.CharField(label='Your feedback', max_length=100)

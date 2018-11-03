@@ -1,12 +1,8 @@
-{% for question in survey.question_set.all %}
-    {{ question.question_text }}
-    <br>
-{% endfor %}
 <form action="{% url 'surveys:form_fill' survey.id %}" method="post">
     {% csrf_token %}
     <table>
         {% for form in forms %}
-            {{ form }}
+            {{ form.as_table }}
         {% endfor %}
     </table>
     <input type="submit" value="Submit">
