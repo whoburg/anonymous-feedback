@@ -2,6 +2,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory, modelformset_factory
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Survey, Question, Feedback
 from .forms import FeedbackModelForm
@@ -42,7 +43,7 @@ class SubmittedView(generic.DetailView):
     template_name = 'surveys/submitted.html'
 
 
-class ResultsView(generic.ListView):
+class ResultsView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/results.html'
     def get_queryset(self):
         """Return feedback for this user"""
