@@ -12,3 +12,7 @@ class FeedbackModelForm(forms.ModelForm):
         self.question = question
         super(FeedbackModelForm, self).__init__(*args, **kwargs)
         self.fields['feedback_text'].label = question.question_text
+
+    def clean_feedback_text(self):
+        data = self.cleaned_data['feedback_text']
+        return "SIMULATED%sENCRYPTION" % data
