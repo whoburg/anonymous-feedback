@@ -5,7 +5,7 @@ from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Survey, Question, Feedback
-from .forms import FeedbackModelForm
+from .forms import FeedbackModelForm, RecipientSelectForm
 
 
 class IndexView(generic.ListView):
@@ -19,6 +19,7 @@ class IndexView(generic.ListView):
 def form_fill(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     if request.method == 'POST':
+        userform = RecipientSelectForm(request.POST)
         forms = [FeedbackModelForm(request.POST,
                                    question=q,
                                    instance=Feedback(recipient=request.user,
@@ -31,11 +32,12 @@ def form_fill(request, pk):
                 form.save()
             return HttpResponseRedirect('surveys/../submitted/')
     else:
+        userform = RecipientSelectForm()
         forms = [FeedbackModelForm(question=q,
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
-            {'forms': forms, 'survey': survey})
+            {'forms': forms, 'userform': userform, 'survey': survey})
 
 
 class SubmittedView(generic.DetailView):
