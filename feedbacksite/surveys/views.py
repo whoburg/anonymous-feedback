@@ -47,4 +47,7 @@ class ResultsView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/results.html'
     def get_queryset(self):
         """Return feedback for this user"""
-        return Feedback.objects.filter(recipient=self.request.user)
+        survey = get_object_or_404(Survey, pk=self.kwargs['pk'])
+        questions = survey.question_set.all()
+        return Feedback.objects.filter(recipient=self.request.user,
+                                       question__in=questions)
