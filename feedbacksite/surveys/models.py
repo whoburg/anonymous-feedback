@@ -25,6 +25,7 @@ class Feedback(models.Model):
     class Meta:
         # scrambles output order
         ordering = ['feedback_text']
+        verbose_name_plural = 'Feedback'
 
     def __str__(self):
         return "Private feedback for %s" % (self.recipient)
