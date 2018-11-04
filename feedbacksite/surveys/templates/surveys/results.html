@@ -2,7 +2,9 @@
     <ul>
     {% for fb in feedback_list %}
     <li>
-        {{ fb.feedback_text }}</li>
+      <textarea rows="20" cols="65">{{ fb.feedback_text }}
+        </textarea>
+    </li>
     {% endfor %}
     </ul>
 {% else %}
