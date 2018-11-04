@@ -20,9 +20,13 @@ def form_fill(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     if request.method == 'POST':
         userform = RecipientSelectForm(request.POST)
+        # todo replace the ugly assert below.
+        # the call to is_valid creates userform.cleaned_data
+        assert(userform.is_valid())
+        recipient = userform.cleaned_data['user']
         forms = [FeedbackModelForm(request.POST,
                                    question=q,
-                                   instance=Feedback(recipient=request.user,
+                                   instance=Feedback(recipient=recipient,
                                                      question=q),
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
