@@ -5,7 +5,7 @@ from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Survey, Question, Feedback
-from .forms import FeedbackModelForm, RecipientSelectForm
+from .forms import FeedbackModelForm, RecipientSelectForm, SignupForm
 
 
 class IndexView(generic.ListView):
@@ -53,3 +53,20 @@ class ResultsView(LoginRequiredMixin, generic.ListView):
         questions = survey.question_set.all()
         return Feedback.objects.filter(recipient=self.request.user,
                                        question__in=questions)
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.publickey.key = form.cleaned_data.get('public_key')
+            user.save()
+            raw_password = form.cleaned_data.get('password1')
+            # user = authenticate(username=user.username, password=raw_password)
+            # login(request, user)
+            return redirect('../../accounts/login/')
+    else:
+        form = SignupForm()
+    return render(request, 'surveys/signup.html', {'form': form})

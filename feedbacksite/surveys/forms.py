@@ -1,6 +1,7 @@
 from os.path import expanduser
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 from .models import Feedback
@@ -34,3 +35,13 @@ class RecipientSelectForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all(),
                                   label="Please select a recipient:",
                                   empty_label="")
+
+
+class SignupForm(UserCreationForm):
+    public_key = forms.CharField(
+        widget=forms.Textarea,
+        help_text='Required. Include the full BEGIN and END flags.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2', 'public_key')
