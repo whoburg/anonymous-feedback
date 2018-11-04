@@ -22,5 +22,9 @@ class Feedback(models.Model):
     feedback_text = models.TextField()
     # created_date = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        # scrambles output order
+        ordering = ['feedback_text']
+
     def __str__(self):
         return "Private feedback for %s" % (self.recipient)
