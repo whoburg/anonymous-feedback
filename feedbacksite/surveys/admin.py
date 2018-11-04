@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Survey, Question, Feedback
+from .models import Survey, Question, Feedback, PublicKey
 
 
 class QuestionInline(admin.StackedInline):
@@ -17,3 +17,4 @@ class SurveyAdmin(admin.ModelAdmin):
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Feedback)
+admin.site.register(PublicKey)
