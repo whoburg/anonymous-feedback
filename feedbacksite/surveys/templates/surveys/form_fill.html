@@ -1,5 +1,6 @@
 <form action="{% url 'surveys:form_fill' survey.id %}" method="post">
     {% csrf_token %}
+    {{ userform.as_p }}
     <table>
         {% for form in forms %}
             {{ form.as_table }}
