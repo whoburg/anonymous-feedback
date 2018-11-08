@@ -29,8 +29,9 @@ del f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.pythonanywhere.com' % PYTHON_ANYWHERE_USERNAME, '127.0.0.1']
-
+ALLOWED_HOSTS = ['%s.pythonanywhere.com' % PYTHON_ANYWHERE_USERNAME,
+                 '127.0.0.1']
+del PYTHON_ANYWHERE_USERNAME
 
 # Application definition
 
