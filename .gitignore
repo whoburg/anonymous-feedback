@@ -57,6 +57,7 @@ coverage.xml
 local_settings.py
 db.sqlite3
 secret_key.txt
+python_anywhere_username.txt
 
 # Flask stuff:
 instance/
