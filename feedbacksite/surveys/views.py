@@ -67,10 +67,8 @@ def signup(request):
             user.refresh_from_db()  # load the profile instance created by the signal
             user.publickey.key = form.cleaned_data.get('public_key')
             user.save()
-            raw_password = form.cleaned_data.get('password1')
-            # user = authenticate(username=user.username, password=raw_password)
-            # login(request, user)
-            return redirect('../../accounts/login/')
+            return redirect('../../accounts/login/?newuser=%s' %
+                            user.get_username())
     else:
         form = SignupForm()
     return render(request, 'surveys/signup.html', {'form': form})
