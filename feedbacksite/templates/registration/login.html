@@ -15,6 +15,11 @@
     {% endif %}
 {% endif %}
 
+{% if request.GET.newuser %}
+    <p>Welcome {{ request.GET.newuser }}.
+    Please log in with your new account.</p>
+{% endif %}
+
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
 <table>
