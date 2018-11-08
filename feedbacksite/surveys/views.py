@@ -8,7 +8,7 @@ from .models import Survey, Question, Feedback
 from .forms import FeedbackModelForm, RecipientSelectForm, SignupForm
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/index.html'
     context_object_name = 'latest_survey_list'
     def get_queryset(self):
