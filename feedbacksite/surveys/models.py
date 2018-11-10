@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from . import gpg
+
 
 class Survey(models.Model):
     survey_text = models.CharField(max_length=200)
@@ -39,6 +41,17 @@ class PublicKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     key = models.TextField()
     fingerprint = models.CharField(max_length=50)
+
+    def import_to_gpg(self):
+        """Try to import this key into the system gpg.
+        Sets self.fingerprint based upon the ascii key text in self.key
+        Raises ValueError if the import does not succeed"""
+        result = gpg.import_keys(self.key)
+        if result.count == 0:
+            raise ValueError("Unable to import public key")
+        if result.count > 1:
+            raise ValueError("Multiple keys detected during import")
+        self.fingerprint, = result.fingerprints
 
 
 @receiver(post_save, sender=User)
