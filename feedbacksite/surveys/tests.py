@@ -63,6 +63,15 @@ class PublicKeyModelTests(TestCase):
         # the key should now be installed
         self.assertTrue(gpg.list_keys(keys=TESTUSERFP))
 
+    def test_key_already_imported(self):
+        """Test import of a key already in gpg"""
+        gpg.import_keys(TESTUSERKEY)
+        self.assertTrue(gpg.list_keys(keys=TESTUSERFP))
+        publickey = PublicKey()
+        publickey.import_to_gpg(ascii_key=TESTUSERKEY)
+        self.assertEqual(publickey.fingerprint, TESTUSERFP)
+        # the key should still be installed
+        self.assertTrue(gpg.list_keys(keys=TESTUSERFP))
 
 class TestResultsView(TestCase):
 
