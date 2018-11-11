@@ -48,17 +48,17 @@ class PublicKeyModelTests(TestCase):
         A ValueError should be raised if the key text is not valid
         """
         badkeytext = "Surely this is not a valid key."
-        publickey = PublicKey(key=badkeytext)
+        publickey = PublicKey()
         with self.assertRaises(ValueError):
-            publickey.import_to_gpg()
+            publickey.import_to_gpg(ascii_key=badkeytext)
 
     def test_import_to_gpg(self):
         """Test import of a proper key"""
         gpg.delete_keys(TESTUSERFP) # remove the test key
         # the key should not yet be installed
         self.assertFalse(gpg.list_keys(keys=TESTUSERFP))
-        publickey = PublicKey(key=TESTUSERKEY)
-        publickey.import_to_gpg()
+        publickey = PublicKey()
+        publickey.import_to_gpg(ascii_key=TESTUSERKEY)
         self.assertEqual(publickey.fingerprint, TESTUSERFP)
         # the key should now be installed
         self.assertTrue(gpg.list_keys(keys=TESTUSERFP))
@@ -115,3 +115,19 @@ class TestResultsView(TestCase):
         url = reverse('surveys:results', args=(1,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+
+class TestSignupView(TestCase):
+
+    def test_user_creation(self):
+        user_count = User.objects.count()
+        url = reverse('surveys:signup')
+        uname = "runkle"
+        response = self.client.post(url, {'username': uname,
+                                          'password1': "holyguacamole", 
+                                          'password2': "holyguacamole", 
+                                          'public_key': TESTUSERKEY})
+        self.assertEqual(User.objects.count(), user_count + 1)
+        newuser = User.objects.get(username=uname)
+        self.assertEqual(newuser.publickey.fingerprint,
+                         TESTUSERFP)

@@ -39,19 +39,19 @@ class Feedback(models.Model):
 
 class PublicKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    key = models.TextField()
     fingerprint = models.CharField(max_length=50)
 
-    def import_to_gpg(self):
+    def import_to_gpg(self, ascii_key):
         """Try to import this key into the system gpg.
         Sets self.fingerprint based upon the ascii key text in self.key
         Raises ValueError if the import does not succeed"""
-        result = gpg.import_keys(self.key)
+        result = gpg.import_keys(ascii_key)
         if result.count == 0:
             raise ValueError("Unable to import public key")
         if result.count > 1:
             raise ValueError("Multiple keys detected during import")
         self.fingerprint, = result.fingerprints
+        return self.fingerprint
 
 
 @receiver(post_save, sender=User)
