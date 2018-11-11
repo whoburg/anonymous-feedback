@@ -64,9 +64,9 @@ def signup(request):
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.publickey.key = form.cleaned_data.get('public_key')
-            user.publickey.import_to_gpg()
+            # load instance created by update_user_profile
+            user.refresh_from_db()
+            user.publickey.import_to_gpg(form.cleaned_data.get('public_key'))
             user.save()
             return redirect('../../accounts/login/?newuser=%s' %
                             user.get_username())
