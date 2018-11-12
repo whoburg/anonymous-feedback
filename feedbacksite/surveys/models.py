@@ -53,6 +53,10 @@ class PublicKey(models.Model):
         self.fingerprint, = result.fingerprints
         return self.fingerprint
 
+    def encrypt(self, text, **kwargs):
+        """Encrypt text using this PublicKey; return the encrypted result"""
+        return gpg.encrypt(text, self.fingerprint, **kwargs)
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
