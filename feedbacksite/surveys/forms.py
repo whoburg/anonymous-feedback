@@ -19,11 +19,12 @@ class FeedbackModelForm(forms.ModelForm):
 
     def clean_feedback_text(self):
         data = self.cleaned_data['feedback_text']
-        encrypted_data = self.instance.recipient.publickey.encrypt(data,
-            always_trust=True)
+        publickey = self.instance.recipient.publickey
+        encrypted_data = publickey.encrypt(data, always_trust=True)
         if encrypted_data.ok:
             return str(encrypted_data)
-        raise ValidationError(_('Encryption failed using keyid %s'),
+        raise ValidationError(_('Encryption failed:'
+                                '%s' % encrypted_data.stderr),
                               code='invalid')
 
 
