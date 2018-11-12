@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 from . import gpg
 from .models import Survey, Question, Feedback, PublicKey
+from .forms import FeedbackModelForm
 
 
 TESTUSERKEY = """-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -140,3 +141,24 @@ class TestSignupView(TestCase):
         newuser = User.objects.get(username=uname)
         self.assertEqual(newuser.publickey.fingerprint,
                          TESTUSERFP)
+
+
+class TestFeedbackModelForm(TestCase):
+    
+    def setUp(self):
+        # this TestCase requires a user with publickey
+        self.testuser, flag = User.objects.get_or_create(username='testuser')
+        self.assertTrue(flag)
+        self.testuser.publickey.import_to_gpg(TESTUSERKEY)
+
+    def test_encryption(self):
+        q = Question(question_text="Why")
+        f = Feedback(question=q, recipient=self.testuser)
+        raw_ans = "Just because"
+        form = FeedbackModelForm(question=q,
+                                 instance=f,
+                                 data={'feedback_text': raw_ans})
+        self.assertTrue(form.is_valid())
+        self.assertIn("-----BEGIN PGP MESSAGE-----",
+                      form.cleaned_data["feedback_text"])
+        self.assertNotIn(raw_ans, form.cleaned_data["feedback_text"])

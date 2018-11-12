@@ -2,9 +2,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 from .models import Feedback
-from . import gpg
 
 
 class FeedbackModelForm(forms.ModelForm):
@@ -19,9 +19,8 @@ class FeedbackModelForm(forms.ModelForm):
 
     def clean_feedback_text(self):
         data = self.cleaned_data['feedback_text']
-        # get public key from self.instance.recipient
-        r = "78576A7C19B4891D"
-        encrypted_data = gpg.encrypt(data, r)
+        encrypted_data = self.instance.recipient.publickey.encrypt(data,
+            always_trust=True)
         if encrypted_data.ok:
             return str(encrypted_data)
         raise ValidationError(_('Encryption failed using keyid %s'),
