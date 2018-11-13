@@ -27,6 +27,7 @@ def form_fill(request, pk):
         forms = [FeedbackModelForm(request.POST,
                                    question=q,
                                    instance=Feedback(recipient=recipient,
+                                                     author=request.user,
                                                      question=q),
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]

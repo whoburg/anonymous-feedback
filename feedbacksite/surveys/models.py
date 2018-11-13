@@ -21,12 +21,14 @@ class Question(models.Model):
 
 
 class Feedback(models.Model):
-    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
+                               related_name="feedback_authored")
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     feedback_text = models.TextField()
-    # created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         # scrambles output order
