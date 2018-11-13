@@ -43,6 +43,12 @@ class PublicKey(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fingerprint = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.long_id()
+
+    def long_id(self):
+        return self.fingerprint[-16:]
+
     def import_to_gpg(self, ascii_key):
         """Try to import this key into the system gpg.
         Sets self.fingerprint based upon the ascii key text in self.key
