@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -21,12 +21,14 @@ class Question(models.Model):
 
 
 class Feedback(models.Model):
-    # author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               on_delete=models.CASCADE,
+                               related_name="feedback_authored")
     recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
                                   on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     feedback_text = models.TextField()
-    # created_date = models.DateTimeField(default=timezone.now)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         # scrambles output order

@@ -102,6 +102,7 @@ class TestResultsView(TestCase):
                                   pub_date=timezone.now())
         q = Question.objects.create(survey=s, question_text="Q1")
         f = Feedback.objects.create(recipient=self.testuser,
+                                    author=self.testuser,
                                     question=q,
                                     feedback_text="meh")
         url = reverse('surveys:results', args=(1,))
