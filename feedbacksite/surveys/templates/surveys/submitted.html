@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content%}
 Thank you for submitting {{ survey.survey_text }}.
 
 <p><a href="{% url 'surveys:index' %}">Back to survey index</a></p>
+{% endblock %}

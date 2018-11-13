@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 {% if feedback_list %}
     <ul>
     {% for fb in feedback_list %}
@@ -10,3 +13,4 @@
 {% else %}
     <p>No results are available.</p>
 {% endif %}
+{% endblock %}
