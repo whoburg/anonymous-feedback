@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import Survey, Question, Feedback, PublicKey
 
@@ -6,6 +8,15 @@ from .models import Survey, Question, Feedback, PublicKey
 class QuestionInline(admin.StackedInline):
     model = Question
     extra = 1
+
+
+class PublicKeyInline(admin.StackedInline):
+    model = PublicKey
+    can_delete = False
+
+
+class UserAdmin(BaseUserAdmin):
+    inlines = (PublicKeyInline,)
 
 
 class SurveyAdmin(admin.ModelAdmin):
@@ -17,4 +28,6 @@ class SurveyAdmin(admin.ModelAdmin):
 
 admin.site.register(Survey, SurveyAdmin)
 admin.site.register(Feedback)
-admin.site.register(PublicKey)
+# Re-register UserAdmin for PublicKey inline
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
