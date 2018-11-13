@@ -2,12 +2,17 @@
 
 {% block content %}
 {% if latest_survey_list %}
-    <ul>
+    <table cellpadding="8px">
     {% for survey in latest_survey_list %}
-    <li><a href="{% url 'surveys:form_fill' survey.id %}">
-        {{ survey.survey_text }}</a></li>
+    <tr>
+      <th>{{ survey.survey_text}}</th>
+      <td><a href="{% url 'surveys:form_fill' survey.id %}">
+          enter feedback</a></td>
+      <td><a href="{% url 'surveys:results' survey.id %}">
+          my results</a></td>
+    </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No surveys are available.</p>
 {% endif %}
