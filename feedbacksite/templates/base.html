@@ -1,2 +1,9 @@
+{% if user.is_authenticated %}
+<div style="text-align:right; padding-right:20px">
+  <p><a href="{% url 'logout' %}">Logout</a></p>
+</div>
+{% endif %}
+
 {% block content %}
 {% endblock %}
+
