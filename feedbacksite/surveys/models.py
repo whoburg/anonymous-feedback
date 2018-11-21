@@ -8,11 +8,11 @@ from . import gpg
 
 
 class Survey(models.Model):
-    survey_text = models.CharField(max_length=200)
+    survey_title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
-        return self.survey_text
+        return self.survey_title
 
 
 class Question(models.Model):
