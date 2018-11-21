@@ -11,7 +11,7 @@ class QuestionInline(admin.StackedInline):
 
 class SurveyAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['survey_text']}),
+        (None,               {'fields': ['survey_title']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     ]
     inlines = [QuestionInline]

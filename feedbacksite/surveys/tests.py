@@ -90,7 +90,7 @@ class TestResultsView(TestCase):
 
     def test_no_results(self):
         """"If no results, an appropriate message is displayed"""
-        s = Survey.objects.create(survey_text="Test Survey",
+        s = Survey.objects.create(survey_title="Test Survey",
                                   pub_date=timezone.now())
         url = reverse('surveys:results', args=(1,))
         response = self.client.get(url)
@@ -98,7 +98,7 @@ class TestResultsView(TestCase):
 
     def test_results_filtered_by_survey(self):
         """Results page should only show results for given survey"""
-        s = Survey.objects.create(survey_text="Test Survey",
+        s = Survey.objects.create(survey_title="Test Survey",
                                   pub_date=timezone.now())
         q = Question.objects.create(survey=s, question_text="Q1")
         f = Feedback.objects.create(recipient=self.testuser,
@@ -113,7 +113,7 @@ class TestResultsView(TestCase):
         )
         # now increment the URL pk, there should be no results here
         # even though a Survey 2 exists
-        Survey.objects.create(survey_text="Test Survey 2",
+        Survey.objects.create(survey_title="Test Survey 2",
                                   pub_date=timezone.now())
         url = reverse('surveys:results', args=(2,))
         response = self.client.get(url)
