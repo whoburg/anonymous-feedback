@@ -2,6 +2,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory, modelformset_factory
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Survey, Question, Feedback
@@ -16,6 +17,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         return Survey.objects.order_by('pub_date')
 
 
+@login_required
 def form_fill(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
     if request.method == 'POST':
