@@ -74,6 +74,25 @@ class PublicKeyModelTests(TestCase):
         # the key should still be installed
         self.assertTrue(gpg.list_keys(keys=TESTUSERFP))
 
+    def test_get_uid(self):
+        """Make sure get_uid() works whether key is imported or not"""
+        testkey = PublicKey()
+        self.assertEqual(testkey.get_uid(), '')
+        testkey.import_to_gpg(ascii_key=TESTUSERKEY)
+        self.assertEqual(testkey.get_uid(), 'Test User <test.user@host.org>')
+
+    def test_get_user_data(self):
+        """Make sure get_user_data() works whether key is imported or not"""
+        testkey = PublicKey()
+        self.assertEqual(testkey.get_user_data(),
+                         {"first_name": '', "last_name": '', "email": ''})
+        testkey.import_to_gpg(ascii_key=TESTUSERKEY)
+        self.assertEqual(testkey.get_user_data(),
+                         {"first_name": 'Test',
+                          "last_name": 'User',
+                          "email": 'test.user@host.org'})
+
+
 class TestResultsView(TestCase):
 
     def setUp(self):

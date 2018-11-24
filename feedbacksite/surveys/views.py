@@ -74,6 +74,10 @@ def signup(request):
             # load instance created by update_user_profile
             user.refresh_from_db()
             user.publickey.import_to_gpg(form.cleaned_data.get('public_key'))
+            udata = user.publickey.get_user_data()
+            user.first_name = udata["first_name"]
+            user.last_name = udata["last_name"]
+            user.email = udata["email"]
             # add users to default groups
             user.groups.add(RECIPIENTS_GROUP)
             user.groups.add(AUTHORS_GROUP)
