@@ -1,12 +1,11 @@
 from django.views import generic
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 
-from .models import Survey, Question, Feedback
+from .models import Survey, Feedback
 from .forms import FeedbackModelForm, RecipientSelectForm, SignupForm
 
 
@@ -49,7 +48,7 @@ def form_fill(request, pk):
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
-            {'forms': forms, 'userform': userform, 'survey': survey})
+                  {'forms': forms, 'userform': userform, 'survey': survey})
 
 
 class SubmittedView(generic.DetailView):
