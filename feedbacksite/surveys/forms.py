@@ -57,6 +57,9 @@ class GPGUserCreationForm(UserCreationForm):
             publickey.import_to_gpg(ascii_key=data)
         except ValueError as err:
             raise ValidationError(_('%s' % err))
+        if publickey.fingerprint in (u.publickey.fingerprint
+                                     for u in User.objects.all()):
+            raise ValidationError(_('This public key already has an account'))
         return publickey
 
     def save(self, commit=True):

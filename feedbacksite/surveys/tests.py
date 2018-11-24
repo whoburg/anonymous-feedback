@@ -168,6 +168,12 @@ class TestGPGUserCreationForm(TestCase):
         self.assertEqual(user.last_name, "User")
         self.assertEqual(user.email, 'test.user@host.org')
 
+    def test_duplicate_public_key(self):
+        user = self.form.save()
+        data = self.form.data
+        another = GPGUserCreationForm(data=data)
+        self.assertFalse(another.is_valid())
+
 
 class TestSignupView(TestCase):
 
