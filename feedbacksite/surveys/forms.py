@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext as _
 
-from .models import Feedback
+from .models import Feedback, PublicKey
 
 
 class FeedbackModelForm(forms.ModelForm):
@@ -41,7 +41,7 @@ class RecipientSelectForm(forms.Form):
         empty_label="")
 
 
-class SignupForm(UserCreationForm):
+class GPGUserCreationForm(UserCreationForm):
     public_key = forms.CharField(
         widget=forms.Textarea,
         help_text='Required. Include the full BEGIN and END flags.')
@@ -49,3 +49,25 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2', 'public_key')
+
+    def clean_public_key(self):
+        data = self.cleaned_data['public_key']
+        publickey = PublicKey()
+        try:
+            publickey.import_to_gpg(ascii_key=data)
+        except ValueError as err:
+            raise ValidationError(_('%s' % err))
+        return publickey
+
+    def save(self, commit=True):
+        user = super(GPGUserCreationForm, self).save()
+        pk = self.cleaned_data['public_key']
+        pk.user = user
+        udata = pk.get_user_data()
+        user.first_name = udata["first_name"]
+        user.last_name = udata["last_name"]
+        user.email = udata["email"]
+        if commit:
+            pk.save()
+            user.save()
+        return user

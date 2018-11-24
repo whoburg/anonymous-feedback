@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 
 from .models import Survey, Feedback
-from .forms import FeedbackModelForm, RecipientSelectForm, SignupForm
+from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
 
 
 RECIPIENTS_GROUP = Group.objects.get_or_create(name="Feedback Recipients")[0]
@@ -68,16 +68,9 @@ class ResultsView(LoginRequiredMixin, generic.ListView):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = GPGUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # load instance created by update_user_profile
-            user.refresh_from_db()
-            user.publickey.import_to_gpg(form.cleaned_data.get('public_key'))
-            udata = user.publickey.get_user_data()
-            user.first_name = udata["first_name"]
-            user.last_name = udata["last_name"]
-            user.email = udata["email"]
             # add users to default groups
             user.groups.add(RECIPIENTS_GROUP)
             user.groups.add(AUTHORS_GROUP)
@@ -85,5 +78,5 @@ def signup(request):
             return redirect('../../accounts/login/?newuser=%s' %
                             user.get_username())
     else:
-        form = SignupForm()
+        form = GPGUserCreationForm()
     return render(request, 'surveys/signup.html', {'form': form})

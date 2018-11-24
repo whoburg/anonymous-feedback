@@ -5,7 +5,7 @@ from django.contrib.auth.models import User, Group
 
 from . import gpg
 from .models import Survey, Question, Feedback, PublicKey
-from .forms import FeedbackModelForm, RecipientSelectForm
+from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
 
 
 TESTUSERKEY = """-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -147,6 +147,28 @@ class TestResultsView(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+class TestGPGUserCreationForm(TestCase):
+
+    def setUp(self):
+        self.form = GPGUserCreationForm(data={'username': 'testuser',
+                                              'password1': 'socomplicated',
+                                              'password2': 'socomplicated',
+                                              'public_key': TESTUSERKEY})
+
+    def test_valid_key(self):
+        self.assertTrue(self.form.is_valid())
+
+    def test_key_attached(self):
+        user = self.form.save()
+        self.assertEqual(user.publickey.fingerprint, TESTUSERFP)
+
+    def test_user_data_extracted(self):
+        user = self.form.save()
+        self.assertEqual(user.first_name, "Test")
+        self.assertEqual(user.last_name, "User")
+        self.assertEqual(user.email, 'test.user@host.org')
+
+
 class TestSignupView(TestCase):
 
     def test_user_creation(self):
@@ -161,6 +183,8 @@ class TestSignupView(TestCase):
         newuser = User.objects.get(username=uname)
         self.assertEqual(newuser.publickey.fingerprint,
                          TESTUSERFP)
+        self.assertEqual(newuser.get_full_name(), "Test User")
+        self.assertEqual(newuser.email, "test.user@host.org")
 
 
 class TestFeedbackModelForm(TestCase):
@@ -169,6 +193,7 @@ class TestFeedbackModelForm(TestCase):
         # this TestCase requires a user with publickey
         self.testuser, flag = User.objects.get_or_create(username='testuser')
         self.assertTrue(flag)
+        self.testuser.publickey = PublicKey(user=self.testuser)
         self.testuser.publickey.import_to_gpg(TESTUSERKEY)
 
     def test_encryption(self):
