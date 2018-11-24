@@ -87,10 +87,3 @@ class PublicKey(models.Model):
         return {'first_name': first_name,
                 'last_name': last_name,
                 'email': email}
-
-
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        PublicKey.objects.create(user=instance)
-    instance.publickey.save()
