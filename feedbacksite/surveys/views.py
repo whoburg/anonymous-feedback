@@ -4,9 +4,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import formset_factory, modelformset_factory
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 
 from .models import Survey, Question, Feedback
 from .forms import FeedbackModelForm, RecipientSelectForm, SignupForm
+
+
+RECIPIENTS_GROUP = Group.objects.get_or_create(name="Feedback Recipients")[0]
+AUTHORS_GROUP = Group.objects.get_or_create(name="Feedback Authors")[0]
 
 
 class IndexView(LoginRequiredMixin, generic.ListView):
@@ -70,6 +75,9 @@ def signup(request):
             # load instance created by update_user_profile
             user.refresh_from_db()
             user.publickey.import_to_gpg(form.cleaned_data.get('public_key'))
+            # add users to default groups
+            user.groups.add(RECIPIENTS_GROUP)
+            user.groups.add(AUTHORS_GROUP)
             user.save()
             return redirect('../../accounts/login/?newuser=%s' %
                             user.get_username())
