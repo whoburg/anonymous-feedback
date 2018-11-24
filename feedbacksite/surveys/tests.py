@@ -1,11 +1,11 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from . import gpg
 from .models import Survey, Question, Feedback, PublicKey
-from .forms import FeedbackModelForm
+from .forms import FeedbackModelForm, RecipientSelectForm
 
 
 TESTUSERKEY = """-----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -163,3 +163,16 @@ class TestFeedbackModelForm(TestCase):
         self.assertIn("-----BEGIN PGP MESSAGE-----",
                       form.cleaned_data["feedback_text"])
         self.assertNotIn(raw_ans, form.cleaned_data["feedback_text"])
+
+
+class TestRecipientSelectForm(TestCase):
+
+    def test_non_recipients_not_in_dropdown(self):
+        recipient, _ = User.objects.get_or_create(username='recipient')
+        rgroup, _ = Group.objects.get_or_create(name='Feedback Recipients')
+        recipient.groups.add(rgroup)
+        nonrecipient, _ = User.objects.get_or_create(username='nonrecipient')
+
+        form = RecipientSelectForm()
+        self.assertIn(recipient, form.fields["user"].choices.queryset)
+        self.assertNotIn(nonrecipient, form.fields["user"].choices.queryset)
