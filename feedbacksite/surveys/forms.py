@@ -28,8 +28,14 @@ class FeedbackModelForm(forms.ModelForm):
                               code='invalid')
 
 
+class UserChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        fullname = obj.get_full_name()
+        return fullname if fullname else obj
+
+
 class RecipientSelectForm(forms.Form):
-    user = forms.ModelChoiceField(
+    user = UserChoiceField(
         queryset=User.objects.filter(groups__name='Feedback Recipients'),
         label="Please select a recipient:",
         empty_label="")
