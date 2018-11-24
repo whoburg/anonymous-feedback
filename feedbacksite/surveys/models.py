@@ -65,6 +65,29 @@ class PublicKey(models.Model):
         """Encrypt text using this PublicKey; return the encrypted result"""
         return gpg.encrypt(text, self.fingerprint, **kwargs)
 
+    def get_uid(self):
+        """Get the UID of the form 'Full Name <email@host.domain>'"""
+        if not self.fingerprint:
+            return ''
+        keys, = gpg.list_keys(keys=self.fingerprint)
+        uid, = keys["uids"]
+        return uid
+
+    def get_user_data(self):
+        """Return a dict of user data extracted from this key, including:
+
+        first_name (The first word in the UID full name)
+        last_name (The rest of the UID full name)
+        email
+        """
+        chunks = self.get_uid().split(" ")
+        email = chunks.pop(-1).strip("<>")
+        first_name = chunks.pop(0) if chunks else ''
+        last_name = " ".join(chunks)
+        return {'first_name': first_name,
+                'last_name': last_name,
+                'email': email}
+
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
