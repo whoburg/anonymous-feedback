@@ -29,9 +29,10 @@ class FeedbackModelForm(forms.ModelForm):
 
 
 class RecipientSelectForm(forms.Form):
-    user = forms.ModelChoiceField(queryset=User.objects.all(),
-                                  label="Please select a recipient:",
-                                  empty_label="")
+    user = forms.ModelChoiceField(
+        queryset=User.objects.filter(groups__name='Feedback Recipients'),
+        label="Please select a recipient:",
+        empty_label="")
 
 
 class SignupForm(UserCreationForm):
