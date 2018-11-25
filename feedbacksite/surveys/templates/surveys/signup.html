@@ -16,9 +16,40 @@
         {% endfor %}
       </p>
     {% endfor %}
-    <p>
-    Clear instructions for installing GPG and copying public key go here.
-    </p>
     <button type="submit">Sign up</button>
   </form>
+  <h3>How to obtain a GPG public key</h3>
+  <p>
+  To sign up, you will need to install GPG on your computer.
+  To understand why, please read our FAQ at the bottom of this page.
+  </p>
+  <b>GPG installation instructions (Mac OSX)</b><br>
+  (These roughly follow <a href="ihttp://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/">This detailed tutorial</a>.)
+  <ol>
+    <li>Download <a href="https://gpgtools.org/">GPG Suite</a></li>
+    <li>Mount the DMG and run "Install", but on the second page click "Customize", and uncheck "GPGMail" to avoid annoying requests for money. Then proceed to install.</li>
+    <li>A small popup will request access to your contacts. It is not required.</li>
+    <li>Generate a New keypair, entering your full name and e-mail address.</li>
+    <li><i>Important: </i>Do not forget your passphrase. There is no way to recover it. Without it, you will be unable to decrypt your feedback.</li>
+    <li>In the GPG Keychain Access window, highlight your new key, and press command-C to copy the public key. Paste this into the field above. You can now sign up!
+  </ol>
+  <h3>FAQ</h3>
+  <p>
+  <b>Why should our feedback be anonymous, anyway?</b></br>
+  It often shouldn't be. We are agnostic, and see merits both ways. The purpose of this site is simply to enable true anonymity, when that is desired.
+  </p>
+  <p>
+  <b>Why do I need to install special software?</b><br>
+  In order to jumble up feedback responses and make them anonymous, we need to store them on a server. We don't want <i>anyone</i>, including site admins, to be able to read this feedback, so we store it encrypted. In order to read it, you decrypt it locally on your computer using your secret private key. This ensures you are the only person who can read your personal feedback.
+  </p>
+  <p>
+  <b>How is my data kept safe?</b></br>
+  Feedback text that you author is sent to the server via a Secure
+  <a href="https://en.wikipedia.org/wiki/HTTPS"> HTTPS Socket</a>,
+  where it is immediately encrypted using
+  <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">
+  Public-key_cryptography</a>.
+  It is stored in this encrypted form until results are published.
+  The only person who can decrypt it is the recipient, using their private key.
+  </p>
 {% endblock %}

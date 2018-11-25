@@ -44,11 +44,13 @@ class RecipientSelectForm(forms.Form):
 class GPGUserCreationForm(UserCreationForm):
     public_key = forms.CharField(
         widget=forms.Textarea,
-        help_text='Required. Include the full BEGIN and END flags.')
+        help_text='See instructions below. '
+                  'Include the full BEGIN and END flags.',
+        label="GPG Public Key")
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'public_key')
+        fields = ('public_key', 'username', 'password1', 'password2')
 
     def clean_public_key(self):
         data = self.cleaned_data['public_key']

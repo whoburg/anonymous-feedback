@@ -4,6 +4,15 @@
 
 {% if feedback_list %}
 
+<p>
+Note: you will need to decrypt each result individually.
+To do so, select the encrypted text, right click, select Services, select OpenPGP: Decrypt Selection.
+For efficiency, you may also want to set up GPG keyboard shortcuts as described
+<a href="http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/"
+   target="new">
+in Step 3 here</a>.
+</p>
+
 {% regroup feedback_list by question as feedback_by_q %}
 
 {% for q in feedback_by_q %}
