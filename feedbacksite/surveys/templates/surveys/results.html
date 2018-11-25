@@ -1,16 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 {% if feedback_list %}
-    <ul>
-    {% for fb in feedback_list %}
-    <li>
-      <textarea rows="20" cols="65">{{ fb.feedback_text }}
-        </textarea>
-    </li>
-    {% endfor %}
-    </ul>
+
+{% regroup feedback_list by question as feedback_by_q %}
+
+{% for q in feedback_by_q %}
+<b>{{ q.grouper }}</b>
+  {% for fb in q.list %}
+  <p>
+    <textarea rows="20" cols="72">{{ fb.feedback_text }}
+    </textarea>
+  </p>
+  {% endfor %}
+{% endfor %}
+
 {% else %}
     <p>No results are available.</p>
 {% endif %}
+
 {% endblock %}
