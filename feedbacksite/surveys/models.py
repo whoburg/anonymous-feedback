@@ -19,6 +19,9 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_text = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.question_text
+
 
 class Feedback(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -31,8 +34,8 @@ class Feedback(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # scrambles output order
-        ordering = ['feedback_text']
+        # first order by question since we'll group results by question
+        ordering = ['question', 'feedback_text'] # scrambles output order
         verbose_name_plural = 'Feedback'
 
     def __str__(self):
