@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
+from django.utils import timezone
 
 from .models import Survey, Feedback
 from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
@@ -15,10 +16,10 @@ AUTHORS_GROUP = Group.objects.get_or_create(name="Feedback Authors")[0]
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/index.html'
-    context_object_name = 'latest_survey_list'
     def get_queryset(self):
-        """Return all questions"""
-        return Survey.objects.order_by('pub_date')
+        """Return published Surveys"""
+        now = timezone.now()
+        return Survey.objects.filter(pub_date__lt=now).order_by('pub_date')
 
 
 @login_required
