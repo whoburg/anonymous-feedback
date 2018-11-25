@@ -105,8 +105,8 @@ class TestIndexView(TestCase):
         """Unpublished survey should not be in queryset"""
         future = timezone.now() + timezone.timedelta(hours=1)
         past = timezone.now() - timezone.timedelta(hours=1)
-        Survey.objects.create(survey_title="Past Survey", pub_date=past)
-        Survey.objects.create(survey_title="Future Survey", pub_date=future)
+        Survey.objects.create(title="Past Survey", pub_date=past)
+        Survey.objects.create(title="Future Survey", pub_date=future)
         url = reverse('surveys:index')
         response = self.client.get(url)
         self.assertQuerysetEqual(response.context['survey_list'],
@@ -136,7 +136,7 @@ class TestResultsView(TestCase):
 
     def test_no_results(self):
         """"If no results, an appropriate message is displayed"""
-        s = Survey.objects.create(survey_title="Test Survey",
+        s = Survey.objects.create(title="Test Survey",
                                   pub_date=timezone.now(),
                                   results_published=True)
         url = reverse('surveys:results', args=(1,))
@@ -145,7 +145,7 @@ class TestResultsView(TestCase):
 
     def test_results_filtered_by_survey(self):
         """Results page should only show results for given survey"""
-        s = Survey.objects.create(survey_title="Test Survey",
+        s = Survey.objects.create(title="Test Survey",
                                   pub_date=timezone.now(),
                                   results_published=True)
         q = Question.objects.create(survey=s, question_text="Q1")
@@ -161,7 +161,7 @@ class TestResultsView(TestCase):
         )
         # now increment the URL pk, there should be no results here
         # even though a Survey 2 exists
-        Survey.objects.create(survey_title="Test Survey 2",
+        Survey.objects.create(title="Test Survey 2",
                               pub_date=timezone.now(),
                               results_published=True)
         url = reverse('surveys:results', args=(2,))
@@ -171,7 +171,7 @@ class TestResultsView(TestCase):
 
     def test_unpublished_results(self):
         """Make sure no results in QuerySet if not results_published"""
-        s = Survey.objects.create(survey_title="Test Survey",
+        s = Survey.objects.create(title="Test Survey",
                                   pub_date=timezone.now(),
                                   results_published=False)
         q = Question.objects.create(survey=s, question_text="Q1")
