@@ -137,7 +137,8 @@ class TestResultsView(TestCase):
     def test_no_results(self):
         """"If no results, an appropriate message is displayed"""
         s = Survey.objects.create(survey_title="Test Survey",
-                                  pub_date=timezone.now())
+                                  pub_date=timezone.now(),
+                                  results_published=True)
         url = reverse('surveys:results', args=(1,))
         response = self.client.get(url)
         self.assertContains(response, "No results are available.")
@@ -145,7 +146,8 @@ class TestResultsView(TestCase):
     def test_results_filtered_by_survey(self):
         """Results page should only show results for given survey"""
         s = Survey.objects.create(survey_title="Test Survey",
-                                  pub_date=timezone.now())
+                                  pub_date=timezone.now(),
+                                  results_published=True)
         q = Question.objects.create(survey=s, question_text="Q1")
         f = Feedback.objects.create(recipient=self.testuser,
                                     author=self.testuser,
@@ -160,11 +162,36 @@ class TestResultsView(TestCase):
         # now increment the URL pk, there should be no results here
         # even though a Survey 2 exists
         Survey.objects.create(survey_title="Test Survey 2",
-                                  pub_date=timezone.now())
+                              pub_date=timezone.now(),
+                              results_published=True)
         url = reverse('surveys:results', args=(2,))
         response = self.client.get(url)
         self.assertContains(response, "No results are available.")
         self.assertQuerysetEqual(response.context['feedback_list'], [])
+
+    def test_unpublished_results(self):
+        """Make sure no results in QuerySet if not results_published"""
+        s = Survey.objects.create(survey_title="Test Survey",
+                                  pub_date=timezone.now(),
+                                  results_published=False)
+        q = Question.objects.create(survey=s, question_text="Q1")
+        f = Feedback.objects.create(recipient=self.testuser,
+                                    author=self.testuser,
+                                    question=q,
+                                    feedback_text="meh")
+        url = reverse('surveys:results', args=(1,))
+        response = self.client.get(url)
+        self.assertQuerysetEqual(response.context['feedback_list'], [])
+        self.assertContains(response, "not yet published.")
+
+        s.results_published = True
+        s.save()
+        url = reverse('surveys:results', args=(1,))
+        response = self.client.get(url)
+        self.assertQuerysetEqual(
+            response.context['feedback_list'],
+            ['<Feedback: Private feedback for testuser>']
+        )
 
     def test_logged_out(self):
         """If user logged out, should get redirected"""

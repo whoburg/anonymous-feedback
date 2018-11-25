@@ -58,13 +58,23 @@ class SubmittedView(generic.DetailView):
 
 
 class ResultsView(LoginRequiredMixin, generic.ListView):
+
     template_name = 'surveys/results.html'
+
     def get_queryset(self):
         """Return feedback for this user"""
         survey = get_object_or_404(Survey, pk=self.kwargs['pk'])
+        if not survey.results_published:
+            return Feedback.objects.none()
         questions = survey.question_set.all()
         return Feedback.objects.filter(recipient=self.request.user,
                                        question__in=questions)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['survey'] = get_object_or_404(Survey, pk=self.kwargs['pk'])
+        return context
 
 
 def signup(request):
