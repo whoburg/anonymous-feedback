@@ -17,7 +17,11 @@
 {% endfor %}
 
 {% else %}
+  {% if survey.results_published %}
     <p>No results are available.</p>
+  {% else %}
+    <p>Results for this survey are not yet published.</p>
+  {% endif %}
 {% endif %}
 
 {% endblock %}

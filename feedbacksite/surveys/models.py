@@ -11,6 +11,8 @@ from . import gpg
 class Survey(models.Model):
     survey_title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
+    results_published = models.BooleanField(default=False,
+                                            verbose_name="Publish results")
 
     def __str__(self):
         return self.survey_title
