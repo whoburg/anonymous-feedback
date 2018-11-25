@@ -42,7 +42,7 @@ Ys3EtS5yqCxqAu8T8JlGIbqYL6g1RMPbPuO5Hr3+k30kFx68oeg=
 TESTUSERFP = "CDC81D56018C178AF9DF46A718FD335EF739BCAC"
 
 
-class PublicKeyModelTests(TestCase):
+class TestPublicKey(TestCase):
 
     def test_bad_key(self):
         """
@@ -91,6 +91,33 @@ class PublicKeyModelTests(TestCase):
                          {"first_name": 'Test',
                           "last_name": 'User',
                           "email": 'test.user@host.org'})
+
+
+class TestIndexView(TestCase):
+
+    def setUp(self):
+        # ResultsView requires a logged in user
+        self.testuser, flag = User.objects.get_or_create(username='testuser')
+        self.assertTrue(flag)
+        self.client.force_login(self.testuser)
+
+    def test_unpublished_survey(self):
+        """Unpublished survey should not be in queryset"""
+        future = timezone.now() + timezone.timedelta(hours=1)
+        past = timezone.now() - timezone.timedelta(hours=1)
+        Survey.objects.create(survey_title="Past Survey", pub_date=past)
+        Survey.objects.create(survey_title="Future Survey", pub_date=future)
+        url = reverse('surveys:index')
+        response = self.client.get(url)
+        self.assertQuerysetEqual(response.context['survey_list'],
+                                 ['<Survey: Past Survey>'])
+
+    def test_logged_out(self):
+        """If user logged out, should get redirected"""
+        self.client.logout()
+        url = reverse('surveys:index')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
 
 
 class TestResultsView(TestCase):
