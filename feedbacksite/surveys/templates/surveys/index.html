@@ -5,7 +5,7 @@
     <table cellpadding="8px">
     {% for survey in survey_list %}
     <tr>
-      <th>{{ survey.survey_title }}</th>
+      <th>{{ survey.title }}</th>
       <td><a href="{% url 'surveys:form_fill' survey.id %}">
           enter feedback</a></td>
       <td><a href="{% url 'surveys:results' survey.id %}">

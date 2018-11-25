@@ -9,13 +9,13 @@ from . import gpg
 
 
 class Survey(models.Model):
-    survey_title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published', default=timezone.now)
     results_published = models.BooleanField(default=False,
                                             verbose_name="Publish results")
 
     def __str__(self):
-        return self.survey_title
+        return self.title
 
 
 class Question(models.Model):
