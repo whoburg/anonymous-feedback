@@ -57,6 +57,8 @@ class GPGUserCreationForm(UserCreationForm):
         self.fields['password1'].help_text = (
             'At least 8 characters, and not easily guessed, such as '
             '"password" or "FCR1".')
+        self.fields['password2'].help_text = (
+            "Re-enter password, for verification")
 
     def clean_public_key(self):
         data = self.cleaned_data['public_key']
