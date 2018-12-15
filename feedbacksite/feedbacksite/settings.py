@@ -24,6 +24,14 @@ with open(os.path.join(BASE_DIR, 'secret_key.txt')) as f:
     SECRET_KEY = f.read().strip()
 with open(os.path.join(BASE_DIR, 'python-anywhere-username.txt')) as f:
     PYTHON_ANYWHERE_USERNAME = f.read().strip()
+with open(os.path.join(BASE_DIR, 'gmail.txt')) as f:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_USER = f.readline().strip()
+    EMAIL_HOST_PASSWORD = f.readline().strip()
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 del f
 
 # SECURITY WARNING: don't run with debug turned on in production!
