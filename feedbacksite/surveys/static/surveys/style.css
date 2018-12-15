@@ -1,3 +1,7 @@
 textarea {
     display:block;
 }
+
+body {
+  color: blue;
+}
