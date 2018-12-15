@@ -58,6 +58,7 @@ local_settings.py
 db.sqlite3
 secret_key.txt
 python-anywhere-username.txt
+gmail.txt
 
 # Flask stuff:
 instance/
