@@ -50,7 +50,7 @@ class GPGUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('public_key', 'username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2', 'public_key')
 
     def clean_public_key(self):
         data = self.cleaned_data['public_key']
