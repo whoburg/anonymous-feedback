@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
   <h2>Sign up</h2>
@@ -32,7 +33,12 @@
     <li>A popup may request access to your contacts. Access is not required.</li>
     <li>Generate a new keypair. Use your real name and an e-mail address you have access to.</li>
     <li><i>Important: </i>Do not forget your passphrase. There is no way to recover it. Without it, you will be unable to decrypt your feedback.</li>
-    <li>In the GPG Keychain Access window, highlight your new key, and press command-C to copy the public key. Paste this into the field above. You can now sign up!
+    <li>In the <i>GPG Keychain</i> window, select the row containing your new key, as shown in the screenshot below.<br/>
+    <img src="{% static "surveys/gpg-select-key.png" %}" width=700px>
+    </li>
+    <li>Press command-C to copy the public key. Paste this into the field above. The output will look similar to the screenshot below. You can now sign up!<br/>
+    <img src="{% static "surveys/pasted-key.png" %}" width=300px>
+    </li>
   </ol>
   <h3>FAQ</h3>
   <p>
