@@ -10,10 +10,6 @@ from .models import Survey, Feedback
 from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
 
 
-RECIPIENTS_GROUP = Group.objects.get_or_create(name="Feedback Recipients")[0]
-AUTHORS_GROUP = Group.objects.get_or_create(name="Feedback Authors")[0]
-
-
 class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/index.html'
     def get_queryset(self):
@@ -78,13 +74,16 @@ class ResultsView(LoginRequiredMixin, generic.ListView):
 
 
 def signup(request):
+
     if request.method == 'POST':
         form = GPGUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             # add users to default groups
-            user.groups.add(RECIPIENTS_GROUP)
-            user.groups.add(AUTHORS_GROUP)
+            recpnts = Group.objects.get_or_create(name="Feedback Recipients")[0]
+            authors = Group.objects.get_or_create(name="Feedback Authors")[0]
+            user.groups.add(recpnts)
+            user.groups.add(authors)
             user.save()
             return redirect('../../accounts/login/?newuser=%s' %
                             user.get_username())
