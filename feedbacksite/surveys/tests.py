@@ -141,7 +141,7 @@ class TestResultsView(TestCase):
                                   results_published=True)
         url = reverse('surveys:results', args=(1,))
         response = self.client.get(url)
-        self.assertContains(response, "No results are available.")
+        self.assertContains(response, "You have not received feedback yet.")
 
     def test_results_filtered_by_survey(self):
         """Results page should only show results for given survey"""
