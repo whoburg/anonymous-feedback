@@ -50,7 +50,15 @@ class GPGUserCreationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('public_key', 'username', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2', 'public_key')
+
+    def __init__(self, *args, **kwargs):
+        super(GPGUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].help_text = (
+            'At least 8 characters, and not easily guessed, such as '
+            '"password" or "FCR1".')
+        self.fields['password2'].help_text = (
+            "Re-enter password, for verification.")
 
     def clean_public_key(self):
         data = self.cleaned_data['public_key']

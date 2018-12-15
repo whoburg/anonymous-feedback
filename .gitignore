@@ -59,6 +59,7 @@ db.sqlite3
 secret_key.txt
 python-anywhere-username.txt
 gmail.txt
+feedbacksite/static
 
 # Flask stuff:
 instance/
