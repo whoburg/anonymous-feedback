@@ -8,8 +8,10 @@
       <th>{{ survey.title }}</th>
       <td><a href="{% url 'surveys:form_fill' survey.id %}">
           enter feedback</a></td>
+      {% if survey.results_published %}
       <td><a href="{% url 'surveys:results' survey.id %}">
           my results</a></td>
+      {% endif %}
     </tr>
     {% endfor %}
     </table>
