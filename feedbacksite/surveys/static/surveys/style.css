@@ -3,9 +3,7 @@ textarea {
 }
 
 body {
-  color: blue;
+  color: blue; 
+  font-family: helvetica;
 }
 
-h2 {
-    font: Arial;
-}
