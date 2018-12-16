@@ -1,10 +1,9 @@
-textarea {
-    display:block;
-}
+# fonts #
 
+textarea {display:block !important;}
 body {font-family: Arial !important;}
 h2 {font-family: Arial !important;}
 h3 {font-family: Arial !important;}
-h4 {font-family: Arial !important; font-size: 12px;}
+h4 {font-family: Arial !important; font-size: 12px; font-weight: regular; display: block;}
 p {font-family: Arial !important;}
 
