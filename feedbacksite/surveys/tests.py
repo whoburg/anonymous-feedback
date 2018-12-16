@@ -268,6 +268,15 @@ class TestFeedbackModelForm(TestCase):
                       form.cleaned_data["feedback_text"])
         self.assertNotIn(raw_ans, form.cleaned_data["feedback_text"])
 
+    def test_char_encoding(self):
+        q = Question(question_text="Say something.")
+        f = Feedback(question=q, recipient=self.testuser)
+        raw_ans = "йцукенгшщзхъёфывапролджэячсмитьбю"
+        form = FeedbackModelForm(question=q,
+                                 instance=f,
+                                 data={'feedback_text': raw_ans})
+        self.assertTrue(form.is_valid())
+
 
 class TestRecipientSelectForm(TestCase):
 
