@@ -2,15 +2,9 @@ textarea {
     display:block;
 }
 
-body { 
-    font-family: Arial !important;
-}
-
-h2 {
-    font-family: Arial !important;
-}
-
-p {
-    font-family: Arial !important;
-}
+body {font-family: Arial !important;}
+h2 {font-family: Arial !important;}
+h3 {font-family: Arial !important;}
+h4 {font-family: Arial !important; font-size: 12px;}
+p {font-family: Arial !important;}
 
