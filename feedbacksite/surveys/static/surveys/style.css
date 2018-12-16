@@ -1,17 +1,18 @@
 textarea {
     display:block;
-    font-family: Arial;
+    font-family: Arial !important;
 }
 
 body {
     color: blue; 
+    font-family: Arial !important;
 }
 
 h2 {
-    font-family: Arial;
+    font-family: Arial !important;
 }
 
 p {
-    font-family: Arial;
+    font-family: Arial !important;
 }
 
