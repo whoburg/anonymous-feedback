@@ -166,7 +166,7 @@ class TestResultsView(TestCase):
                               results_published=True)
         url = reverse('surveys:results', args=(2,))
         response = self.client.get(url)
-        self.assertContains(response, "No results are available.")
+        self.assertContains(response, "You have not received feedback yet.")
         self.assertQuerysetEqual(response.context['feedback_list'], [])
 
     def test_unpublished_results(self):
