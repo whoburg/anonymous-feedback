@@ -18,10 +18,10 @@ in Step 3 here</a>.
 {% for q in feedback_by_q %}
 <b>{{ q.grouper }}</b>
   {% for fb in q.list %}
-  <p>
-    <textarea rows="20" cols="72">{{ fb.feedback_text }}
-    </textarea>
-  </p>
+    <tt>
+    <br/>
+    {{ fb.feedback_text | linebreaksbr }}
+    <br/></tt>
   {% endfor %}
 {% endfor %}
 
