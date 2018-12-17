@@ -90,3 +90,6 @@ def signup(request):
     else:
         form = GPGUserCreationForm()
     return render(request, 'surveys/signup.html', {'form': form})
+
+def faq(request):
+    return render(request, 'surveys/faq.html')
