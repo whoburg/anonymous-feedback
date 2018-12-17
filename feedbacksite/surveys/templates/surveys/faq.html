@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>FAQ</h3>
+  <p>
+  <b>Why should our feedback be anonymous, anyway?</b></br>
+  It often shouldn't be. We are agnostic, and see merits both ways. The purpose of this site is simply to enable true anonymity, when that is desired.
+  </p>
+  <p>
+  <b>Why do I need to install special software?</b><br>
+  In order to jumble up feedback responses and make them anonymous, we need to store them on a server. We don't want <i>anyone</i>, including site admins, to be able to read this feedback, so we store it encrypted. In order to read it, you decrypt it locally on your computer using your secret private key. This ensures you are the only person who can read your personal feedback.
+  </p>
+  <p>
+  <b>How is my data kept safe?</b></br>
+  Feedback text that you author is sent to the server via a Secure
+  <a href="https://en.wikipedia.org/wiki/HTTPS"> HTTPS Socket</a>,
+  where it is immediately encrypted using
+  <a href="https://en.wikipedia.org/wiki/Public-key_cryptography">
+  Public-key_cryptography</a>.
+  It is stored in this encrypted form until results are published.
+  The only person who can decrypt it is the recipient, using their private key.
+  </p>
+{% endblock %}
