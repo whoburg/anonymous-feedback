@@ -24,6 +24,7 @@
   To sign up, you will need to install GPG on your computer.
   To understand why, please read our FAQ at the bottom of this page.
   </p>
+
   <b>GPG installation instructions (Mac OSX)</b><br>
   These roughly follow <a href="ihttp://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/">this detailed tutorial</a>.
   You'll need OS X 10.12 or higher.
@@ -40,6 +41,22 @@
     <img src="{% static "surveys/pasted-key.png" %}" width=300px>
     </li>
   </ol>
+
+  <b>GPG installation instructions (Windows)</b><br>
+  <ol>
+    <li>Download <a href="https://www.gpg4win.org">GPG4Win</a>. You can select $0 to download for free.</li>
+    <li>Install GPG4Win (check the boxes next to Kleopatra, GpgOL, and GpgEX).</li>
+    <li>Leave <i>Run Kleopatra</i> boxed at the end of the installer.</li>
+    <li>Use Kleopatra to generate a new key pair. Use your real name and an email address you can access.</li>
+    <li>Create a passphrase. Do not forget it. There is no way to recover it and you won’t be able to access your feedback. Fail.</li>
+    <li>Right click your new key in Kleopatra and select “Export.” Save it on your computer and then open it with Notepad.<br/>
+    <img src="{% static "surveys/key_in_kleopatra.png" %}" width=500px>
+    </li>
+    <li>Once open in Notepad copy and paste the entire public key (including BEGIN and END flags) into the GPG Public Key textbox above.<br/>
+    <img src="{% static "surveys/pasted-key.png" %}" width=300px>
+    </li>
+  </ol>
+
   <h3>FAQ</h3>
   <p>
   <b>Why should our feedback be anonymous, anyway?</b></br>
