@@ -223,7 +223,10 @@ class TestGPGUserCreationForm(TestCase):
     def test_duplicate_public_key(self):
         user = self.form.save()
         data = self.form.data
-        another = GPGUserCreationForm(data=data)
+        another = GPGUserCreationForm(data={'username': 'testuser2',
+                                            'password1': 'socomplicated2',
+                                            'password2': 'socomplicated2',
+                                            'public_key': TESTUSERKEY})
         self.assertFalse(another.is_valid())
 
 
