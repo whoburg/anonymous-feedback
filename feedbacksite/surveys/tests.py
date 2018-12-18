@@ -150,7 +150,6 @@ class TestResultsView(TestCase):
                                   results_published=True)
         q = Question.objects.create(survey=s, question_text="Q1")
         f = Feedback.objects.create(recipient=self.testuser,
-                                    author=self.testuser,
                                     question=q,
                                     feedback_text="meh")
         url = reverse('surveys:results', args=(1,))
@@ -176,7 +175,6 @@ class TestResultsView(TestCase):
                                   results_published=False)
         q = Question.objects.create(survey=s, question_text="Q1")
         f = Feedback.objects.create(recipient=self.testuser,
-                                    author=self.testuser,
                                     question=q,
                                     feedback_text="meh")
         url = reverse('surveys:results', args=(1,))
