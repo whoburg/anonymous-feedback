@@ -1,8 +1,6 @@
 
 body,h1,h2,h3,h4,p {font-family: "Poppins", sans-serif;}
 
-div.turtlefeedbackicon {content:url(https://github.com/whoburg/anonymous-feedback/blob/css2/feedbacksite/surveys/static/surveys/turtle_feedback_icon.png?raw=true);}
-
 .sidenav {
   	height: 100%;
   	width: 230px;
