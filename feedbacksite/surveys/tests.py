@@ -244,6 +244,10 @@ class TestSignupView(TestCase):
         self.assertEqual(newuser.get_full_name(), "Test User")
         self.assertEqual(newuser.email, "test.user@host.org")
 
+    def test_user_with_no_public_key_exists(self):
+        User.objects.get_or_create(username="nopkey")
+        self.test_user_creation()
+
 
 class TestFeedbackModelForm(TestCase):
     
