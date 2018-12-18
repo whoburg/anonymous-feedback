@@ -1,5 +1,5 @@
 
-body,h1,h2,h3,h4,p {font-family: "Poppins", sans-serif;}
+body,h1,h2,h3,h4,p {font-family: "Poppins"!important, sans-serif;}
 
 .sidenav {
   	height: 100%;
