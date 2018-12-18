@@ -7,10 +7,11 @@
 <p>
 Note: you will need to decrypt each result individually.
 To do so, select the encrypted text, right click, select Services, select OpenPGP: Decrypt Selection.
-For efficiency, you may also want to set up GPG keyboard shortcuts as described
-<a href="http://notes.jerzygangi.com/the-best-pgp-tutorial-for-mac-os-x-ever/"
-   target="new">
-in Step 3 here</a>.
+For efficiency, consider setting GPG keyboard shortcuts as follows:
+<ul>
+  <li>Mac: System Preferences / Keyboard / Shortcuts / Services / OpenPGP: Decrypt Selection. Suggest setting to ⌃⌥⌘- (control option command minus).</li>
+</ul>
+When decrypting, you may be prompted for a passphrase. Enter the passphrase used when creating your GPG keypair.
 </p>
 
 {% regroup feedback_list by question as feedback_by_q %}
