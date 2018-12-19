@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.utils import timezone
 
 from .models import Survey, Feedback
@@ -19,10 +19,16 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         return Survey.objects.filter(pub_date__lt=now).order_by('pub_date')
 
 
+class DetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = 'surveys/detail.html'
+    model = Survey
+
+
 @login_required
-def form_fill(request, pk):
+def form_fill(request, pk, rk):
     survey = get_object_or_404(Survey, pk=pk)
     assignments = survey.assignment_set.filter(user=request.user)
+    rkuser = get_object_or_404(User, pk=rk)
     if request.method == 'POST':
         userform = RecipientSelectForm(request.POST)
         # todo replace the ugly assert below.
@@ -53,7 +59,7 @@ def form_fill(request, pk):
                  for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
                   {'forms': forms, 'userform': userform, 'survey': survey,
-                   'assignments': assignments})
+                   'assignments': assignments, 'rkuser': rkuser})
 
 
 class SubmittedView(generic.DetailView):
