@@ -3,5 +3,5 @@
 {% block content%}
 Thank you for submitting {{ survey.title }}.
 
-<p><a href="{% url 'surveys:index' %}">Back to survey index</a></p>
+<p><a href="{% url 'surveys:detail' survey.pk %}">Back to survey detail</a></p>
 {% endblock %}
