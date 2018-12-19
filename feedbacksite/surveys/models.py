@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.conf import settings
 from django.utils import timezone
 
@@ -41,7 +40,8 @@ class Feedback(models.Model):
 
 
 class PublicKey(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
     fingerprint = models.CharField(max_length=50)
 
     def __str__(self):
