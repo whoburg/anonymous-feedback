@@ -10,7 +10,7 @@
         {{ field.label_tag }}<br>
         {{ field }}
         {% if field.help_text %}
-          {{ field.help_text }}
+        <i>{{ field.help_text }}</i>
         {% endif %}
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
