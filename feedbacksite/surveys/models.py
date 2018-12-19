@@ -88,3 +88,14 @@ class PublicKey(models.Model):
         return {'first_name': first_name,
                 'last_name': last_name,
                 'email': email}
+
+
+class Assignment(models.Model):
+    """Allow tracking of progress as team fills survey"""
+    survey = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                  on_delete=models.CASCADE,
+                                  related_name="assignment_target")
+    complete = models.BooleanField(default=False)
