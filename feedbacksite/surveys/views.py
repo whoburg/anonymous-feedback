@@ -12,6 +12,7 @@ from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
 
 class IndexView(LoginRequiredMixin, generic.ListView):
     template_name = 'surveys/index.html'
+
     def get_queryset(self):
         """Return published Surveys"""
         now = timezone.now()
