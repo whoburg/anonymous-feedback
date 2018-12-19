@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% if assignments %}
+Please submit feedback for at least the following people:
+<table>
+  {% for a in assignments %}
+  <tr {% if a.complete %}style="color:green;"}{% endif %}>
+    <td>{% if a.complete %}&#9989{% endif %}</td>
+    <td>{{ a.recipient_name }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
 <form action="{% url 'surveys:form_fill' survey.id %}" method="post">
     {% csrf_token %}
     {{ userform.as_p }}
