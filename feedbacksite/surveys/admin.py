@@ -1,11 +1,16 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import Survey, Question, Feedback
+from .models import Survey, Question, Feedback, Assignment
 
 
 class QuestionInline(admin.StackedInline):
     model = Question
+    extra = 1
+
+
+class AssignmentInline(admin.TabularInline):
+    model = Assignment
     extra = 1
 
 
@@ -14,7 +19,7 @@ class SurveyAdmin(admin.ModelAdmin):
         (None,               {'fields': ['title', 'results_published']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     ]
-    inlines = [QuestionInline]
+    inlines = [QuestionInline, AssignmentInline]
 
 UserAdmin.list_display += ('publickey',)
 UserAdmin.list_filter += ('publickey',)
