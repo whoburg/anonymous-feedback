@@ -14,7 +14,7 @@ Please submit feedback for at least the following people:
 </table>
 {% endif %}
 
-<form action="{% url 'surveys:form_fill' survey.id %}" method="post">
+<form action="{% url 'surveys:form_fill' survey.id rkuser.pk %}" method="post">
     {% csrf_token %}
     {{ userform.as_p }}
     <table>

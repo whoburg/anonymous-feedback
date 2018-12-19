@@ -96,7 +96,7 @@ class TestPublicKey(TestCase):
 class TestIndexView(TestCase):
 
     def setUp(self):
-        # ResultsView requires a logged in user
+        # IndexView requires a logged in user
         self.testuser, flag = User.objects.get_or_create(username='testuser')
         self.assertTrue(flag)
         self.client.force_login(self.testuser)
@@ -111,6 +111,29 @@ class TestIndexView(TestCase):
         response = self.client.get(url)
         self.assertQuerysetEqual(response.context['survey_list'],
                                  ['<Survey: Past Survey>'])
+
+    def test_logged_out(self):
+        """If user logged out, should get redirected"""
+        self.client.logout()
+        url = reverse('surveys:index')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+
+class TestDetailView(TestCase):
+
+    def setUp(self):
+        # DetailView requires a logged in user
+        self.testuser, flag = User.objects.get_or_create(username='testuser')
+        self.assertTrue(flag)
+        self.client.force_login(self.testuser)
+
+    def test_placeholder(self):
+        """Paceholder"""
+        Survey.objects.create(title="Test Survey")
+        url = reverse('surveys:detail', args=(1,))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
     def test_logged_out(self):
         """If user logged out, should get redirected"""
