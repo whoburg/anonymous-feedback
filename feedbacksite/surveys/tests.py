@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 
 from . import gpg
-from .models import Survey, Question, Feedback, PublicKey
+from .models import Survey, Question, Feedback, PublicKey, Assignment
 from .forms import FeedbackModelForm, RecipientSelectForm, GPGUserCreationForm
 
 
@@ -127,6 +127,7 @@ class TestDetailView(TestCase):
         self.testuser, flag = User.objects.get_or_create(username='testuser')
         self.assertTrue(flag)
         self.client.force_login(self.testuser)
+        rgroup, _ = Group.objects.get_or_create(name='Feedback Recipients')
 
     def test_placeholder(self):
         """Paceholder"""
@@ -141,6 +142,40 @@ class TestDetailView(TestCase):
         url = reverse('surveys:index')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+
+class TestFormFill(TestCase):
+
+    def setUp(self):
+        # requires a logged in user with publickey
+        self.testuser, flag = User.objects.get_or_create(username='testuser')
+        self.assertTrue(flag)
+        self.testuser.publickey = PublicKey.objects.create(user=self.testuser)
+        self.testuser.publickey.import_to_gpg(TESTUSERKEY)
+        self.testuser.save()
+        self.testuser.publickey.save()
+        self.client.force_login(self.testuser)
+        s = Survey.objects.create(title="Test Survey")
+        Question.objects.create(survey=s, question_text="Q1")
+        self.assignment = Assignment.objects.create(survey=s,
+                                                    user=self.testuser,
+                                                    recipient=self.testuser)
+
+    def test_get_form(self):
+        """"Make sure we get a good response, updated database"""
+        url = reverse('surveys:form_fill', args=(1, self.testuser.pk))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_form(self):
+        Survey.objects.create(title="Test Survey")
+        url = reverse('surveys:form_fill', args=(1, self.testuser.pk))
+        self.assertFalse(self.assignment.complete)
+        response = self.client.post(url, {"question1-feedback_text": "hey"})
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Feedback.objects.count(), 1)
+        self.assignment.refresh_from_db()
+        self.assertTrue(self.assignment.complete)
 
 
 class TestResultsView(TestCase):

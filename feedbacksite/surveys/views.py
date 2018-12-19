@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group, User
+from django.urls import reverse
 from django.utils import timezone
 
 from .models import Survey, Feedback
@@ -23,6 +24,16 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'surveys/detail.html'
     model = Survey
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        survey = self.get_object()
+        assignments = survey.assignment_set.filter(user=self.request.user)
+        context['assignments'] = assignments
+        valid_recips = Group.objects.get(name="Feedback Recipients")
+        context['optionals'] = valid_recips.user_set.exclude(
+            pk__in=(a.recipient.pk for a in assignments))
+        return context
+
 
 @login_required
 def form_fill(request, pk, rk):
@@ -30,14 +41,9 @@ def form_fill(request, pk, rk):
     assignments = survey.assignment_set.filter(user=request.user)
     rkuser = get_object_or_404(User, pk=rk)
     if request.method == 'POST':
-        userform = RecipientSelectForm(request.POST)
-        # todo replace the ugly assert below.
-        # the call to is_valid creates userform.cleaned_data
-        assert(userform.is_valid())
-        recipient = userform.cleaned_data['user']
         forms = [FeedbackModelForm(request.POST,
                                    question=q,
-                                   instance=Feedback(recipient=recipient,
+                                   instance=Feedback(recipient=rkuser,
                                                      question=q),
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
@@ -46,19 +52,19 @@ def form_fill(request, pk, rk):
             for form in forms:
                 form.save()
             # mark assignment completed, if there was one
-            assignment_list = assignments.filter(recipient=recipient)
+            assignment_list = assignments.filter(recipient=rkuser)
             if assignment_list:
                 assignment, = assignment_list
                 assignment.complete = True
                 assignment.save()
-            return HttpResponseRedirect('surveys/../submitted/')
+            return HttpResponseRedirect(reverse("surveys:submitted",
+                                                args=(survey.pk,)))
     else:
-        userform = RecipientSelectForm()
         forms = [FeedbackModelForm(question=q,
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
-                  {'forms': forms, 'userform': userform, 'survey': survey,
+                  {'forms': forms, 'survey': survey,
                    'assignments': assignments, 'rkuser': rkuser})
 
 

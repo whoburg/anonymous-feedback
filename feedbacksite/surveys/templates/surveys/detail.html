@@ -3,5 +3,35 @@
 {% block content %}
 <h3>{{ survey.title }}</h3>
 
+<p>Please submit feedback for the following people:</p>
+
+<table style="text-align:left;">
+  <th>Name</th>
+  <th>Complete</th>
+  {% for assignment in assignments %}
+  <tr>
+    <td>
+      <a href="{% url 'surveys:form_fill' survey.pk assignment.recipient.pk %}">
+        {{ assignment.recipient_name }}</a>
+    </td>
+    <td>{% if assignment.complete %}&#9989{% else %}&#10005{% endif %}</td>
+  </tr>
+  {% endfor %}
+  {% for optional_recipient in optionals %}
+  <tr>
+    <td>
+      <a href="{% url 'surveys:form_fill' survey.pk optional_recipient.pk %}">
+      {% if optional_recipient.get_full_name %}
+        {{ optional_recipient.get_full_name }}
+      {% else %}
+        {{ optional_recipient.get_username }}
+      {% endif %}
+      </a>
+    </td>
+    <td>optional</td>
+  </tr>
+  {% endfor %}
+</table>
+
 <p><a href="{% url 'surveys:index' %}">Back to survey index</a></p>
 {% endblock %}
