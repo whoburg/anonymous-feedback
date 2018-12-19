@@ -21,6 +21,7 @@ class IndexView(LoginRequiredMixin, generic.ListView):
 @login_required
 def form_fill(request, pk):
     survey = get_object_or_404(Survey, pk=pk)
+    assignments = survey.assignment_set.filter(user=request.user)
     if request.method == 'POST':
         userform = RecipientSelectForm(request.POST)
         # todo replace the ugly assert below.
@@ -37,6 +38,12 @@ def form_fill(request, pk):
             # do something with the cleaned data
             for form in forms:
                 form.save()
+            # mark assignment completed, if there was one
+            assignment_list = assignments.filter(recipient=recipient)
+            if assignment_list:
+                assignment, = assignment_list
+                assignment.complete = True
+                assignment.save()
             return HttpResponseRedirect('surveys/../submitted/')
     else:
         userform = RecipientSelectForm()
@@ -44,7 +51,8 @@ def form_fill(request, pk):
                                    prefix=("question%s" % q.id))
                  for q in survey.question_set.all()]
     return render(request, 'surveys/form_fill.html',
-                  {'forms': forms, 'userform': userform, 'survey': survey})
+                  {'forms': forms, 'userform': userform, 'survey': survey,
+                   'assignments': assignments})
 
 
 class SubmittedView(generic.DetailView):

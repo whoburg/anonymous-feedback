@@ -99,3 +99,7 @@ class Assignment(models.Model):
                                   on_delete=models.CASCADE,
                                   related_name="assignment_target")
     complete = models.BooleanField(default=False)
+
+    def recipient_name(self):
+        fullname = self.recipient.get_full_name()
+        return fullname if fullname else str(self.recipient)
