@@ -8,6 +8,7 @@ from . import gpg
 class Survey(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published', default=timezone.now)
+    due_date = models.DateTimeField('date due', null=True)
     results_published = models.BooleanField(default=False,
                                             verbose_name="Publish results")
 

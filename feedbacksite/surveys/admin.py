@@ -17,7 +17,7 @@ class AssignmentInline(admin.TabularInline):
 class SurveyAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,               {'fields': ['title', 'results_published']}),
-        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+        ('Date information', {'fields': ['pub_date', 'due_date']}),
     ]
     inlines = [QuestionInline, AssignmentInline]
 
