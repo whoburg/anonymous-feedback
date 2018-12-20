@@ -32,6 +32,7 @@ class DetailView(LoginRequiredMixin, generic.DetailView):
         valid_recips = Group.objects.get(name="Feedback Recipients")
         context['optionals'] = valid_recips.user_set.exclude(
             pk__in=(a.recipient.pk for a in assignments))
+        context['survey_complete'] = all(a.complete for a in assignments)
         return context
 
 
