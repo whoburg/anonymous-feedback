@@ -3,6 +3,10 @@
 {% block content %}
 <h3>{{ survey.title }}</h3>
 
+{% if survey.due_date %}
+(Due {{ survey.due_date }})
+{% endif %}
+
 <p>
 {% if survey_complete %}
   <div style="color:green;">
