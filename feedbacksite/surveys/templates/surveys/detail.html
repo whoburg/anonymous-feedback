@@ -3,7 +3,18 @@
 {% block content %}
 <h3>{{ survey.title }}</h3>
 
-<p>Please submit feedback for the following people:</p>
+<p>
+{% if survey_complete %}
+  <div style="color:green;">
+  Thank you for completing all required feedback.
+  {% if optionals %}
+    You may continue to provide feedback to anyone below, if desired.
+  {% endif %}
+  </div>
+{% else %}
+  Please submit feedback for the following people:
+{% endif %}
+</p>
 
 <table style="text-align:left;">
   <th>Name</th>
