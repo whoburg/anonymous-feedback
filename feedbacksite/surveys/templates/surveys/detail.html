@@ -9,13 +9,15 @@
   <th>Name</th>
   <th>Complete</th>
   {% for assignment in assignments %}
+  {% with assignment.recipient as recipient %}
   <tr>
     <td>
       <a href="{% url 'surveys:form_fill' survey.pk assignment.recipient.pk %}">
-        {{ assignment.recipient_name }}</a>
+        {{ recipient.get_full_name | default:recipient.get_username }}</a>
     </td>
     <td>{% if assignment.complete %}&#9989{% else %}&#10005{% endif %}</td>
   </tr>
+  {% endwith %}
   {% endfor %}
   {% for optional_recipient in optionals %}
   <tr>
