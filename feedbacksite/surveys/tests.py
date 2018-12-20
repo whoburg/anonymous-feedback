@@ -128,13 +128,21 @@ class TestDetailView(TestCase):
         self.assertTrue(flag)
         self.client.force_login(self.testuser)
         rgroup, _ = Group.objects.get_or_create(name='Feedback Recipients')
+        another = User.objects.create(username='anotheruser')
+        another.groups.add(rgroup)
+        another.save()
+        self.testuser.groups.add(rgroup)
+        self.testuser.save()
 
-    def test_placeholder(self):
-        """Paceholder"""
+    def test_self_not_displayed(self):
+        """Make sure the current user is not in the results"""
         Survey.objects.create(title="Test Survey")
         url = reverse('surveys:detail', args=(1,))
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
+        self.assertIn('anotheruser', str(response.content))
+        self.assertNotIn('testuser', str(response.content))
+        self.assertNotIn('Test User', str(response.content))
 
     def test_logged_out(self):
         """If user logged out, should get redirected"""
