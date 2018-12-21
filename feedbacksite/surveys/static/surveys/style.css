@@ -61,7 +61,7 @@ nav li a:hover{
 }
 
 
-button {
+input {
 	-webkit-appearance:button;
     font-family:"Ubuntu",sans-serif;
     font-size: .8em;
@@ -72,16 +72,16 @@ button {
     border-radius: .5em;
 }
 
-button a {
+input a {
 	color: #000!important;
 }
 
-button:hover {
+input:hover {
 	background-color:#3e82f7;
     color: #000!important;
 }
 
-button a:hover {
+input a:hover {
 	color: #000;
 }
 
