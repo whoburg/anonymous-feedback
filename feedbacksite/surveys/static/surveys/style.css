@@ -7,7 +7,8 @@
 @import url(link https://fonts.googleapis.com/css?family=Aleo);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu");
 
-body,h1,h2,h3,p {font-family: "Ubuntu", sans-serif;}
+body,h1,h2,h3 {font-family: "Ubuntu", sans-serif;}
+p {font-family: "Ubuntu", sans-serif; font-size: .9em;}
 h4 {font-family: "Aleo", sans-serif;}
 
 
