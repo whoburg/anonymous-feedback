@@ -7,8 +7,8 @@
 @import url(link https://fonts.googleapis.com/css?family=Aleo);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu");
 
-body,h1,h2,h3,h4 {font-family: "Ubuntu", sans-serif;}
-p {font-family: "Aleo", sans-serif;}
+body,h1,h2,h3,p {font-family: "Ubuntu", sans-serif;}
+h4 {font-family: "Aleo", sans-serif;}
 
 
 
@@ -18,9 +18,9 @@ p {font-family: "Aleo", sans-serif;}
 
 header {
 	padding: 0px;
-    background-color: #ffffff;
-    width: 100%;
-    height: 100px;
+    	background-color: #ffffff;
+    	width: 100%;
+    	height: 100px;
 }
 
 nav {
@@ -63,26 +63,28 @@ nav li a:hover{
 
 input {
 	-webkit-appearance:button;
-    font-family:"Ubuntu",sans-serif;
-    font-size: .8em;
+    	font-family:"Ubuntu",sans-serif;
+    	font-size: .8em;
+    	color: #fff;
 	cursor:pointer;
-    background-color:efefef;
-    padding:5px;
-    border-color:black;
-    border-radius: .5em;
+    	background-color:#3e82f7;
+    	padding:.8em;
+    	border-color:#3e82f7;
+    	border-radius: .3em;
 }
 
 input a {
-	color: #000!important;
+	color: #fff!important;
 }
 
-input:hover {
-	background-color:#3e82f7;
-    color: #000!important;
+button:hover {
+	background-color:#136aea;
+    	border-color:#136aea;
+    	color: #fff!important;
 }
 
 input a:hover {
-	color: #000;
+	color: #fff;
 }
 
 
