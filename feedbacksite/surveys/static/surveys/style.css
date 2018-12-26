@@ -120,21 +120,13 @@ body a:hover {
 
 
 table {
-	width=80%;
+	table-layout: fixed;
+	width: 100%;
 }
 
-th {
-	text-align: left;
-	padding: 10px;
-}
-
-
-td {
+th,td,tr {
 	text-align: left;
 	padding: 40px;
+	width: 100px;
 }
 
-tr {
-	text-align: left;
-	padding: 40px;
-}
