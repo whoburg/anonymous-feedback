@@ -120,12 +120,12 @@ body a:hover {
 
 
 table th {
-	text-align: left;
-	padding: 10px;
+	text-align: left!important;
+	padding: 10px!important;
 }
 
 
 table td {
-	text-align: left;
-	padding: 10px;
+	text-align: left!important;
+	padding: 10px!important;
 }
