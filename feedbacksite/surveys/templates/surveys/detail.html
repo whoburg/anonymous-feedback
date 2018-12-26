@@ -20,6 +20,7 @@
 {% endif %}
 </p>
 
+<div style="table">
 <table style="text-align:left;" cellpadding=4px; padding=15px;>
   <th>Name</th>
   <th>Complete</th>
@@ -49,6 +50,7 @@
   </tr>
   {% endfor %}
 </table>
+</div>
 
 <p><a href="{% url 'surveys:index' %}">Back to survey index</a></p>
 {% endblock %}
