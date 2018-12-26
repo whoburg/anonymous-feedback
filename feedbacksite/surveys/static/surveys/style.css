@@ -116,6 +116,15 @@ body a:hover {
 
 
 
+/* ------------- TABLES ------------- */
+
+th {
+	text-align: left;
+	height: 1.3em;
+}
 
 
-
+td {
+	text-align: left;
+	height: 1.3em;
+}
