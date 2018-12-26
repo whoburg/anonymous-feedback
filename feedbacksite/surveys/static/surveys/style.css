@@ -78,7 +78,7 @@ input a {
 	color: #fff!important;
 }
 
-button:hover {
+input:hover {
 	background-color:#136aea;
     	border-color:#136aea;
     	color: #fff!important;
@@ -121,12 +121,11 @@ body a:hover {
 
 table {
 	table-layout: fixed;
-	width: 100%;
 }
 
 th,td,tr {
 	text-align: left;
 	padding: 40px;
-	width: 100px;
+	min-width: 300px;
 }
 
