@@ -119,13 +119,17 @@ body a:hover {
 /* ------------- TABLES ------------- */
 
 
+table {
+	border-spacing: 20px;
+}
+
 th {
-	text-align: left!important;
-	padding: 10px!important;
+	text-align: left;
+	padding: 10px;
 }
 
 
 td {
-	text-align: left!important;
-	padding: 40px!important;
+	text-align: left;
+	padding: 40px;
 }
