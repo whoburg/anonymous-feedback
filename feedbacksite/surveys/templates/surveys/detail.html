@@ -4,7 +4,9 @@
 <h3>{{ survey.title }}</h3>
 
 {% if survey.due_date %}
-(Due {{ survey.due_date }})
+<div style="font-size:0.8em;">
+  <i>(Due {{ survey.due_date }})</i>
+</div>
 {% endif %}
 
 <p>
