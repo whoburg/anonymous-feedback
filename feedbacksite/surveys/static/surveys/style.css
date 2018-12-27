@@ -1,16 +1,11 @@
 
 
-
-
-
 @import url(https://fonts.googleapis.com/css?family=Poppins);
 @import url(link https://fonts.googleapis.com/css?family=Aleo);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
 
 body,h1,h2,h3 {font-family: "Poppins", sans-serif;}
 p {font-family: "Poppins", sans-serif; font-size: .9em;}
-
-
 
 
 
@@ -52,12 +47,61 @@ nav li a:hover{
 }
 
 
-/* ------------- LOGO AND BUTTONS ------------- */
-
-
 #logo {
 	float: left;
     	width: 90px;
+}
+
+
+
+/* ------------- BODY and MAIN ------------- */
+
+main {
+  	font-size: 1em;
+    	margin-left: 100px;
+    	margin-top: 10px;
+}
+
+body {
+	padding: 80px 80px 80px 80px;
+}
+
+
+body a {
+	text-decoration: none;
+    	color: #3e82f7;
+}
+
+body a:hover {
+	font-weight: bold;
+}
+
+
+
+/* ------------- TABLES ------------- */
+
+
+table {
+	table-layout: fixed;
+	padding: 10px;
+	font-size: .9em;
+}
+
+th,td,tr {
+	text-align: left;
+	padding: 2px 20px 2px 20px;
+	min-width: 150px;
+}
+
+
+
+
+/* ------------- TEXT AREAS AND INPUT BUTTONS ------------- */
+
+
+
+textarea {
+    	display:block;
 }
 
 
@@ -87,48 +131,4 @@ input a:hover {
 	color: #fff;
 }
 
-
-
-
-
-/* ------------- BODY and MAIN ------------- */
-
-main {
-  	font-size: 1em;
-    	margin-left: 0px;
-    	margin-top: 10px;
-}
-
-body {
-	padding: 80px 80px 80px 80px;
-}
-
-
-body a {
-	text-decoration: none;
-    	color: #3e82f7;
-}
-
-body a:hover {
-	font-weight: bold;
-}
-
-textarea {
-    	display:block;
-}
-
-/* ------------- TABLES ------------- */
-
-
-table {
-	table-layout: fixed;
-	padding: 10px;
-	font-size: .9em;
-}
-
-th,td,tr {
-	text-align: left;
-	padding: 2px 20px 2px 20px;
-	min-width: 150px;
-}
 
