@@ -125,7 +125,7 @@ table {
 
 th,td,tr {
 	text-align: left;
-	padding: 40px;
-	min-width: 300px;
+	padding: 5px 10px 5px 10px;
+	min-width: 100px;
 }
 
