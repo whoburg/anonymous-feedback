@@ -121,11 +121,12 @@ body a:hover {
 
 table {
 	table-layout: fixed;
+	padding: 10px;
 }
 
 th,td,tr {
 	text-align: left;
-	padding: 5px 10px 5px 10px;
-	min-width: 100px;
+	padding: 5px 20px 5px 20px;
+	min-width: 150px;
 }
 
