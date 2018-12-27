@@ -1,5 +1,4 @@
 
-
 @import url(https://fonts.googleapis.com/css?family=Poppins);
 @import url(link https://fonts.googleapis.com/css?family=Aleo);
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -59,7 +58,7 @@ nav li a:hover{
 main {
   	font-size: 1em;
     	margin-left: 150px;
-    	margin-top: 10px;
+    	margin-top: 0px;
 }
 
 body {
