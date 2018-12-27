@@ -22,22 +22,22 @@ nav {
 }
 
 nav li {
-  display:inline-block;
-  float: right;
-  background-color: #ffffff;
-  height: 100px; 
-  line-height: 0px;
-  vertical-align: top;
-  border: none;
+  	display:inline-block;
+  	float: right;
+  	background-color: #ffffff;
+  	height: 100px; 
+  	line-height: 0px;
+  	vertical-align: top;
+  	border: none;
 
 }
 nav li a {
-  display:block;
-  text-decoration:none;
-  padding: 5px 0px 5px 40px;
-  font-size: .8em;
-  color: #000;
-  font-family: "Poppins";
+  	display:block;
+  	text-decoration:none;
+  	padding: 5px 0px 5px 40px;
+  	font-size: .8em;
+  	color: #000;
+  	font-family: "Poppins";
 
 }
 
@@ -57,7 +57,7 @@ nav li a:hover{
 
 main {
   	font-size: 1em;
-    	margin-left: 200px;
+    	margin-left: 175px;
     	margin-top: 0px;
 }
 
