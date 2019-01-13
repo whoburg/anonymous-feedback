@@ -4,12 +4,15 @@
 <h3>{{ survey.title }}</h3>
 
 {% if survey.due_date %}
-(Due {{ survey.due_date }})
+<div style="font-size:0.8em; padding-left:30px;">
+  <i>Due {{ survey.due_date }}</i>
+</div>
 {% endif %}
+
 
 <p>
 {% if survey_complete %}
-  <div style="color:green;">
+  <div style="color:#317c42;">
   Thank you for completing all required feedback.
   {% if optionals %}
     You may continue to provide feedback to anyone below, if desired.
@@ -30,7 +33,7 @@
       <a href="{% url 'surveys:form_fill' survey.pk assignment.recipient.pk %}">
         {{ recipient.get_full_name | default:recipient.get_username }}</a>
     </td>
-    <td>{% if assignment.complete %}&#9989{% endif %}</td>
+    <td>{% if assignment.complete %}&#x2714{% endif %}</td>
   </tr>
   {% endwith %}
   {% endfor %}
