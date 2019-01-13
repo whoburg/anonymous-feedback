@@ -110,13 +110,13 @@ input {
 }
 
 input a {
-	color: #fff!important;
+	color: #fff;
 }
 
 input:hover {
-	background-color:#136aea!important;
-    	border-color:#136aea!important;
-    	color: #fff!important;
+	background-color:#136aea;
+    	border-color:#136aea;
+    	color: #fff;
 }
 
 input a:hover {
