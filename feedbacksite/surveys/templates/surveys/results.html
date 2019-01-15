@@ -4,15 +4,16 @@
 
 {% if feedback_list %}
 
-<p>
-Note: you will need to decrypt each result individually.
-To do so, select the encrypted text, right click, select Services, select OpenPGP: Decrypt Selection.
-For efficiency, consider setting GPG keyboard shortcuts as follows:
-<ul>
-  <li>Mac: System Preferences / Keyboard / Shortcuts / Services / OpenPGP: Decrypt Selection. Suggest setting to ⌃⌥⌘- (control option command minus).</li>
-</ul>
-When decrypting, you may be prompted for a passphrase. Enter the passphrase used when creating your GPG keypair.
-</p>
+Decryption instructions
+<ol>
+  <li>Click on the Mailvelope icon in the upper right of your browser (looks like a lock and key).</li>
+  <li>Select Advanced Options &gt; Activate on Current Tab.</li>
+  <li>Select OK in the Authorized Domain popup window.</li>
+  <li>You should see an envelope icon in the middle of each encrypted block below. Click it to decrypt locally.</li>
+  <li>If you are prompted, enter the passphrase used when creating your GPG keypair in Mailvelope.</li>
+</ol>
+
+<h3>{{ survey.title }}</h3>
 
 {% regroup feedback_list by question as feedback_by_q %}
 
