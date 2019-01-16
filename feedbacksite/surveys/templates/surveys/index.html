@@ -7,8 +7,14 @@
     {% for survey in survey_list %}
     <tr>
       <th>{{ survey.title }}</th>
-      <td><a href="{% url 'surveys:detail' survey.id %}">
-          enter feedback</a></td>
+      <td>
+      {% if survey.results_published %}
+      (survey closed)
+      {% else %}
+      <a href="{% url 'surveys:detail' survey.id %}">
+          enter feedback</a>
+      {% endif %}
+      </td>
       <td>
       {% if survey.results_published %}
       <a href="{% url 'surveys:results' survey.id %}">
