@@ -176,7 +176,6 @@ class TestFormFill(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_form(self):
-        Survey.objects.create(title="Test Survey")
         url = reverse('surveys:form_fill', args=(1, self.testuser.pk))
         self.assertFalse(self.assignment.complete)
         response = self.client.post(url, {"question1-feedback_text": "hey"})
@@ -184,6 +183,14 @@ class TestFormFill(TestCase):
         self.assertEqual(Feedback.objects.count(), 1)
         self.assignment.refresh_from_db()
         self.assertTrue(self.assignment.complete)
+
+    def test_published_results(self):
+        """Survey whose results are published should behave as closed"""
+        Survey.objects.create(title="Published Ress", results_published=True)
+        url = reverse('surveys:form_fill', args=(2, self.testuser.pk))
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "This survey is closed.")
 
 
 class TestResultsView(TestCase):
