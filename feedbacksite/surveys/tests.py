@@ -192,6 +192,33 @@ class TestFormFill(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This survey is closed.")
 
+    def test_results_scrambled(self):
+        url = reverse('surveys:form_fill', args=(1, self.testuser.pk))
+        # large number of posts to ensure low probability of order
+        self.client.post(url, {"question1-feedback_text": "pow"})
+        self.client.post(url, {"question1-feedback_text": "zap"})
+        self.client.post(url, {"question1-feedback_text": "foo"})
+        self.client.post(url, {"question1-feedback_text": "bar"})
+        self.client.post(url, {"question1-feedback_text": "wow"})
+        self.client.post(url, {"question1-feedback_text": "dip"})
+        self.client.post(url, {"question1-feedback_text": "zip"})
+        self.client.post(url, {"question1-feedback_text": "bap"})
+        self.client.post(url, {"question1-feedback_text": "bop"})
+        self.client.post(url, {"question1-feedback_text": "yup"})
+        self.client.post(url, {"question1-feedback_text": "zoo"})
+        self.client.post(url, {"question1-feedback_text": "ayy"})
+        self.assertEqual(Feedback.objects.count(), 12)
+        s = Survey.objects.get(title="Test Survey")
+        # publish so we can get results
+        s.results_published = True
+        s.save()
+        url = reverse('surveys:results', args=(1,))
+        response = self.client.get(url)
+        pks = [f.pk for f in response.context["feedback_list"]]
+        self.assertEqual(len(pks), 12)
+        self.assertNotEqual(pks, range(1, 13))
+        self.assertNotEqual(pks, reversed(range(1, 13)))
+
 
 class TestResultsView(TestCase):
 
